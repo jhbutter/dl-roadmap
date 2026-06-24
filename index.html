@@ -1656,7 +1656,7 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 </div>
 
 <script>
-(function(){const CK='dl_checks_v3',LK='dl_custom_links';
+const CK='dl_checks_v3',LK='dl_custom_links';
 function lc(){try{return JSON.parse(localStorage.getItem(CK))||{}}catch(e){return{}}}
 function sc(s){localStorage.setItem(CK,JSON.stringify(s))}
 function ll(){try{return JSON.parse(localStorage.getItem(LK))||{}}catch(e){return{}}}
@@ -1704,8 +1704,7 @@ ac();rac();up();
 const checks={};document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(c.checked)checks[c.id]=true});
 const links=JSON.parse(localStorage.getItem(LK)||'{}');
 const content={checks,links,updated:new Date().toISOString()};
-fetch('https://api.github.com/gists/'+cfg.gist,{method:'PATCH',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})}).catch(()=>{})}
-let timer;
+fetch('https://api.github.com/gists/'+cfg.gist,{method:'PATCH',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})}).catch(()=>{})
 
 // ===== Sidebar: toggle (mobile) =====
 (function(){
