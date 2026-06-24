@@ -157,23 +157,6 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 .reset-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.78rem;color:#6B6760;background:none;border:1px solid rgba(200,185,170,.1);border-radius:6px;padding:.3rem .7rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.3rem}
 .reset-btn:hover{color:#C07070;border-color:rgba(192,112,112,.3);background:rgba(192,112,112,.05)}
 
-/* Sync Panel */
-.sync-panel{display:none;background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem}
-.sync-panel.open{display:block}
-.sync-panel h3{font-size:.88rem;font-weight:500;color:#EDE8E0;margin-bottom:.5rem}
-.sync-panel .row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:.4rem}
-.sync-panel label{font-size:.75rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;min-width:70px}
-.sync-panel input[type="password"],.sync-panel input[type="text"]{flex:1;min-width:160px;background:#1A1816;border:1px solid rgba(200,185,170,.1);border-radius:6px;padding:.3rem .5rem;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.75rem;color:#D4CFC8;outline:none}
-.sync-panel input:focus{border-color:#7BA4BE}
-.sync-panel .sync-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.75rem;border:none;border-radius:6px;padding:.3rem .7rem;cursor:pointer;transition:background .15s}
-.sync-panel .sync-btn.save{background:rgba(123,164,190,.15);color:#7BA4BE}
-.sync-panel .sync-btn.save:hover{background:rgba(123,164,190,.25)}
-.sync-panel .sync-btn.danger{background:rgba(192,112,112,.1);color:#C07070}
-.sync-panel .sync-btn.danger:hover{background:rgba(192,112,112,.2)}
-.sync-panel .status{font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;margin-top:.35rem}
-.sync-panel .status.ok{color:#8BBB8F}
-.sync-panel .status.err{color:#C07070}
-.sync-panel .status .sync-spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(200,185,170,.1);border-top-color:#7BA4BE;border-radius:50%;animation:spin .6s linear infinite;margin-right:.3rem;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .sticky-nav{position:sticky;top:.5rem;z-index:20;background:rgba(26,24,22,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(200,185,170,.06);border-radius:12px;padding:.55rem 1rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .7rem}
@@ -294,7 +277,6 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
   <a href="#sec-6">大模型</a><span class="nav-sep">/</span>
   <a href="#sec-7">方法论</a>
   <span class="nav-spacer"></span>
-  <button class="reset-btn" onclick="toggleSyncPanel()" title="云同步进度">☁️</button>
   <button class="reset-btn" onclick="resetAll()">🗑️</button>
 </div>
 
@@ -1667,25 +1649,6 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
   </div>
 </div>
 
-<!-- Sync Panel -->
-<div class="sync-panel" id="syncPanel">
-  <h3><i class="fa-regular fa-cloud" style="color:#7BA4BE;margin-right:4px;"></i> 云同步 · GitHub Gist</h3>
-  <div class="row">
-    <label>Token</label>
-    <input type="password" id="syncToken" placeholder="github_pat_...">
-  </div>
-  <div class="row">
-    <label>Gist ID</label>
-    <input type="text" id="syncGist" placeholder="留空自动创建">
-  </div>
-  <div class="row" style="gap:.35rem">
-    <button class="sync-btn save" onclick="syncSaveConfig()"><i class="fa-regular fa-floppy-disk"></i> 保存配置</button>
-    <button class="sync-btn save" onclick="syncPush()"><i class="fa-regular fa-cloud-arrow-up"></i> 上传进度</button>
-    <button class="sync-btn save" onclick="syncPull()"><i class="fa-regular fa-cloud-arrow-down"></i> 下载进度</button>
-    <button class="sync-btn danger" onclick="syncClear()"><i class="fa-regular fa-trash-can"></i> 清除配置</button>
-  </div>
-  <div class="status" id="syncStatus">配置后自动同步，或手动上传/下载</div>
-</div>
 
 <div class="footer"><i class="fa-regular fa-floppy-disk"></i> 进度与自定义链接自动保存在浏览器本地</div>
 
@@ -1737,104 +1700,11 @@ document.getElementById('summaryDone').textContent=dc;document.getElementById('s
 window.resetAll=function(){if(!confirm('确定重置全部进度？'))return;localStorage.removeItem(CK);document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{c.checked=false});up()};
 ac();rac();up();
 
-// === Cloud Sync via GitHub Gist ===
-const SYNC_KEY='dl_sync_config';
-
-function loadSyncConfig(){try{return JSON.parse(localStorage.getItem(SYNC_KEY))||{}}catch(e){return{}}}
-function saveSyncConfig(c){localStorage.setItem(SYNC_KEY,JSON.stringify(c))}
-
-function toggleSyncPanel(){const p=document.getElementById('syncPanel');p.classList.toggle('open');if(p.classList.contains('open'))initSyncPanel()}
-
-function initSyncPanel(){
-  const cfg=loadSyncConfig();
-  if(cfg.token)document.getElementById('syncToken').value=cfg.token;
-  if(cfg.gist)document.getElementById('syncGist').value=cfg.gist;
-  setSyncStatus(cfg.token&&cfg.gist?'已配置，同步就绪':'','ok')
-}
-
-function setSyncStatus(msg,cls){const el=document.getElementById('syncStatus');el.textContent=msg;el.className='status'+(cls?' '+cls:'')}
-
-function syncSaveConfig(){
-  const token=document.getElementById('syncToken').value.trim();
-  const gist=document.getElementById('syncGist').value.trim();
-  if(!token){setSyncStatus('请填写 GitHub Token','err');return}
-  saveSyncConfig({token,gist});
-  setSyncStatus(gist?'配置已保存':'Token 已保存，留空 Gist 则在上传时自动创建','ok')
-}
-
-function syncClear(){
-  if(!confirm('清除云同步配置？'))return;
-  localStorage.removeItem(SYNC_KEY);
-  document.getElementById('syncToken').value='';
-  document.getElementById('syncGist').value='';
-  setSyncStatus('配置已清除','')
-}
-
-function getChecksData(){
-  const s={};
-  document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(c.checked)s[c.id]=true});
-  return s
-}
-
-async function syncPush(){
-  const cfg=loadSyncConfig();
-  if(!cfg.token){setSyncStatus('请先配置 GitHub Token','err');return}
-  setSyncStatus('<span class="sync-spinner"></span>正在上传...','ok');
-  const checks=getChecksData();
-  const links=JSON.parse(localStorage.getItem(LK)||'{}');
-  const content={checks,links,updated:new Date().toISOString()};
-  try{
-    let gistId=cfg.gist;
-    if(!gistId){
-      // Create new gist
-      const r=await fetch('https://api.github.com/gists',{method:'POST',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({description:'DL Roadmap progress sync',public:false,files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})});
-      if(!r.ok){const e=await r.json();throw new Error(e.message||'创建 Gist 失败')}
-      const d=await r.json();gistId=d.id;
-      cfg.gist=gistId;saveSyncConfig(cfg);
-      document.getElementById('syncGist').value=gistId;
-      setSyncStatus('已创建 Gist ('+gistId.slice(0,7)+'…) 并上传成功','ok')
-    } else {
-      const r=await fetch('https://api.github.com/gists/'+gistId,{method:'PATCH',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})});
-      if(!r.ok){const e=await r.json();throw new Error(e.message||'更新 Gist 失败')}
-      setSyncStatus('上传成功 ✓','ok')
-    }
-  }catch(e){setSyncStatus('上传失败: '+e.message,'err')}
-}
-
-async function syncPull(){
-  const cfg=loadSyncConfig();
-  if(!cfg.token||!cfg.gist){setSyncStatus('请先配置 Token 和 Gist ID','err');return}
-  setSyncStatus('<span class="sync-spinner"></span>正在下载...','ok');
-  try{
-    const r=await fetch('https://api.github.com/gists/'+cfg.gist,{headers:{Authorization:'Bearer '+cfg.token,'Accept':'application/vnd.github.v3+json'}});
-    if(!r.ok){const e=await r.json();throw new Error(e.message||'获取 Gist 失败')}
-    const d=await r.json();
-    const raw=d.files['dl-roadmap-progress.json'];if(!raw)throw new Error('未找到进度文件');
-    const data=JSON.parse(raw.content);
-    if(data.checks){
-      localStorage.setItem(CK,JSON.stringify(data.checks));
-      document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{c.checked=!!data.checks[c.id]});
-    }
-    if(data.links){
-      localStorage.setItem(LK,JSON.stringify(data.links));
-      rac();
-    }
-    setSyncStatus('下载成功 ✓ 已恢复 '+(data.checks?Object.keys(data.checks).length:0)+' 个勾选','ok');
-    up()
-  }catch(e){setSyncStatus('下载失败: '+e.message,'err')}
-}
-
-document.addEventListener('click',function(e){if(!e.target.closest('.add-link-form')&&!e.target.closest('.add-link-btn'))document.querySelectorAll('.add-link-form.open').forEach(f=>{f.classList.remove('open');f.innerHTML=''})})})();
-
-// Auto-sync on change
-(function(){const orig=window.onCheckChange;const CK='dl_checks_v3';const LK='dl_custom_links';
-function autoSync(){const cfg=JSON.parse(localStorage.getItem('dl_sync_config')||'{}');if(!cfg.token||!cfg.gist)return;
 const checks={};document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(c.checked)checks[c.id]=true});
 const links=JSON.parse(localStorage.getItem(LK)||'{}');
 const content={checks,links,updated:new Date().toISOString()};
 fetch('https://api.github.com/gists/'+cfg.gist,{method:'PATCH',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})}).catch(()=>{})}
 let timer;
-document.addEventListener('change',function(e){if(e.target.closest('.item-check input[type="checkbox"]')){clearTimeout(timer);timer=setTimeout(autoSync,3000)}})})();
 </script>
 </body>
 </html>
