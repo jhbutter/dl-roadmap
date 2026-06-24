@@ -10,20 +10,12 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Serif SC','Songti SC',serif;line-height:1.7;padding:2rem 1rem;-webkit-font-smoothing:antialiased}
+body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Serif SC','Songti SC',serif;line-height:1.7;padding:0;margin:0;-webkit-font-smoothing:antialiased}
 ::selection{background:rgba(123,164,190,.3);color:#EDE8E0}
 .container{max-width:960px;margin:0 auto}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#1A1816}
 ::-webkit-scrollbar-thumb{background:rgba(200,185,170,.12);border-radius:3px}
-
-.header{text-align:center;margin-bottom:2.5rem;padding:2.8rem 1.5rem 2.2rem;background:#22201D;border-radius:16px;border:1px solid rgba(200,185,170,.08);position:relative;overflow:hidden}
-.header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#7BA4BE,transparent);opacity:.35}
-.header h1{font-size:2rem;font-weight:400;letter-spacing:.04em;color:#EDE8E0;margin-bottom:.5rem}
-.header h1 span{color:#7BA4BE}
-.header .subtitle{color:#9A958E;font-size:.9rem;line-height:1.6}
-.header .badge-row{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
-.header .badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(123,164,190,.1);color:#7BA4BE;padding:.2rem .65rem;border-radius:20px;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.75rem}
 
 .resource-links{background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
 .resource-links h3{font-size:.95rem;font-weight:500;color:#EDE8E0;margin-bottom:.6rem;letter-spacing:.01em}
@@ -154,17 +146,6 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 .appendix-table th{text-align:left;font-weight:500;color:#7BA4BE;padding:.35rem .6rem .3rem 0;border-bottom:1px solid rgba(200,185,170,.1);font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.74rem}
 .appendix-table td{padding:.35rem .6rem .3rem 0;border-bottom:1px solid rgba(200,185,170,.04);vertical-align:top}
 
-.reset-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.78rem;color:#6B6760;background:none;border:1px solid rgba(200,185,170,.1);border-radius:6px;padding:.3rem .7rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.3rem}
-.reset-btn:hover{color:#C07070;border-color:rgba(192,112,112,.3);background:rgba(192,112,112,.05)}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.sticky-nav{position:sticky;top:.5rem;z-index:20;background:rgba(26,24,22,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(200,185,170,.06);border-radius:12px;padding:.55rem 1rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .7rem}
-.sticky-nav a{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.78rem;color:#6B6760;text-decoration:none;transition:color .2s;white-space:nowrap;padding:.1rem .2rem}
-.sticky-nav a:hover{color:#7BA4BE}
-.sticky-nav .nav-sep{color:rgba(200,185,170,.08);font-size:.6rem}
-.sticky-nav .nav-spacer{flex:1}
-
 .summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:.6rem 0}
 .summary-card{background:rgba(123,164,190,.04);border:1px solid rgba(200,185,170,.06);border-radius:8px;padding:.55rem .7rem;text-align:center}
 .summary-card .num{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:1.3rem;color:#7BA4BE;line-height:1.3}
@@ -172,17 +153,12 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 
 .footer{text-align:center;padding:2rem 0 .5rem;font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.6}
 
-@media(max-width:640px){
- body{padding:1rem .5rem}
- .header{padding:1.8rem 1rem 1.5rem;border-radius:12px}
- .header h1{font-size:1.4rem}
+@media(max-width:768px){
  .section-header{padding:.7rem .9rem}
  .section-body{padding:.5rem .9rem .85rem}
  .resource-links{padding:.8rem 1rem}
  .resource-links .grid{grid-template-columns:1fr}
  .global-progress{padding:.85rem 1rem;border-radius:10px;gap:.8rem}
- .sticky-nav{padding:.45rem .7rem;gap:.2rem .4rem;border-radius:10px}
- .sticky-nav a{font-size:.72rem}
  .item{padding:.4rem 0}
  .item-content{font-size:.85rem}
  .item-content .paper-desc{font-size:.78rem}
@@ -190,33 +166,71 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
  .add-link-form input[type="text"]{min-width:70px}
  .add-link-form input[type="url"]{min-width:90px}
 }
+
+/* ===== Sidebar Layout ===== */
+.app-layout{display:flex;min-height:100vh}
+
+.sidebar{position:fixed;top:0;left:0;width:210px;height:100vh;background:#1E1C1A;border-right:1px solid rgba(200,185,170,.06);z-index:100;display:flex;flex-direction:column;overflow:hidden}
+.sidebar-brand{padding:1.2rem 1rem .8rem;border-bottom:1px solid rgba(200,185,170,.04);flex-shrink:0}
+.sidebar-brand h1{font-size:1.05rem;font-weight:500;color:#EDE8E0;letter-spacing:.02em;margin:0}
+.sidebar-brand h1 span{color:#7BA4BE}
+.sidebar-brand .sub{font-size:.68rem;color:#6B6760;margin-top:.15rem;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+
+.sidebar-nav{flex:1;overflow-y:auto;padding:.5rem 0}
+.sidebar-nav::-webkit-scrollbar{width:3px}
+.sidebar-nav::-webkit-scrollbar-thumb{background:rgba(200,185,170,.08);border-radius:2px}
+.sidebar-nav a{display:flex;align-items:center;gap:.5rem;padding:.45rem .9rem .45rem 1rem;font-size:.8rem;color:#8A857E;text-decoration:none;transition:all .15s;border-left:2.5px solid transparent;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.4}
+.sidebar-nav a:hover{color:#C8C3BA;background:rgba(123,164,190,.04);border-left-color:rgba(123,164,190,.2)}
+.sidebar-nav a.active{color:#EDE8E0;background:rgba(123,164,190,.06);border-left-color:#7BA4BE;font-weight:500}
+.sidebar-nav a .sec-badge{font-size:.62rem;color:#6B6760;background:rgba(200,185,170,.04);padding:.02rem .4rem;border-radius:3px;font-family:'JetBrains Mono',ui-monospace,monospace;flex-shrink:0;margin-left:auto;opacity:.6}
+.sidebar-nav a.active .sec-badge{opacity:1;color:#7BA4BE;background:rgba(123,164,190,.1)}
+
+.sidebar-divider{height:1px;background:rgba(200,185,170,.04);margin:.2rem .9rem}
+
+.sidebar-toggle{display:none}
+
+.main-content{flex:1;margin-left:210px;padding:2rem 1.5rem;min-width:0}
+.main-content .container{max-width:900px;margin:0 auto}
+
+@media(max-width:768px){
+.sidebar{width:200px;transform:translateX(-100%);transition:transform .3s ease;-webkit-overflow-scrolling:touch}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+.sidebar-overlay.open{display:block}
+.main-content{margin-left:0;padding:1rem .85rem;padding-top:3.5rem}
+.sidebar-toggle{display:flex;position:fixed;top:.7rem;left:.7rem;z-index:102;width:36px;height:36px;align-items:center;justify-content:center;background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:8px;color:#9A958E;cursor:pointer;font-size:1rem}
+.sidebar-toggle:hover{color:#EDE8E0;border-color:rgba(200,185,170,.15)}
+}
 </style>
 </head>
 <body>
-<!-- Decorative SVG top bar -->
-<svg style="position:fixed;top:0;left:0;width:100%;height:4px;z-index:100;pointer-events:none" preserveAspectRatio="none">
-  <rect width="100%" height="4" fill="#1A1816"/>
-  <rect width="30%" height="4" fill="#7BA4BE" opacity=".3"/>
-</svg>
 
-<!-- Subtle background pattern -->
-<svg style="position:fixed;top:0;right:0;width:300px;height:300px;z-index:0;pointer-events:none;opacity:.015" viewBox="0 0 100 100">
-  <defs><pattern id="g" patternUnits="userSpaceOnUse" width="10" height="10"><circle cx="1" cy="1" r="1" fill="#7BA4BE"/></pattern></defs>
-  <rect width="100" height="100" fill="url(#g)"/>
-</svg>
 
-<div class="container" style="position:relative;z-index:1">
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar"><i class="fa-regular fa-bars"></i></button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<div class="header">
-  <h1>深度学习 · <span>系统路线图</span></h1>
-  <div class="subtitle"><i class="fa-regular fa-compass" style="color:#7BA4BE;margin-right:4px;font-size:.8rem;"></i>科技猛兽 · Dezeming · 李沐论文精读</div>
-  <div class="badge-row">
-    <span class="badge"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span>
-    <span class="badge"><i class="fa-brands fa-zhihu"></i> Dezeming</span>
-    <span class="badge"><i class="fa-brands fa-bilibili"></i> 李沐论文精读</span>
-    <span class="badge"><i class="fa-regular fa-pen-to-square"></i> 自定义链接</span>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <h1>深度学习 · <span>路线图</span></h1>
+    <div class="sub">科技猛兽 · Dezeming · 李沐</div>
   </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <a href="#sec-1" data-target="sec-1"><span>一、深度学习基石</span></a>
+    <a href="#sec-2" data-target="sec-2"><span>二、视觉 Transformer</span></a>
+    <a href="#sec-3" data-target="sec-3"><span>三、自监督学习</span></a>
+    <a href="#sec-4" data-target="sec-4"><span>四、扩散模型</span></a>
+    <a href="#sec-5" data-target="sec-5"><span>五、多模态学习</span></a>
+    <a href="#sec-5b" data-target="sec-5b"><span>五、三维视觉 (3DV)</span></a>
+    <a href="#sec-6" data-target="sec-6"><span>六、大语言模型</span></a>
+    <a href="#sec-7" data-target="sec-7"><span>七、科研方法论</span></a>
+    <div class="sidebar-divider"></div>
+    <a href="#sec-order" data-target="sec-order"><span>📋 学习顺序建议</span></a>
+    <a href="#sec-resources" data-target="sec-resources"><span>📚 三大资源总览</span></a>
+  </nav>
 </div>
+
+<div class="main-content">
+<div class="container">
 
 <!-- ===== Resource Overview ===== -->
 <div class="resource-links">
@@ -266,20 +280,6 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
     </div>
   </div>
 </div>
-
-<div class="sticky-nav">
-  <a href="#sec-1">基石</a><span class="nav-sep">/</span>
-  <a href="#sec-2">视觉Transformer</a><span class="nav-sep">/</span>
-  <a href="#sec-3">自监督</a><span class="nav-sep">/</span>
-  <a href="#sec-4">扩散模型</a><span class="nav-sep">/</span>
-  <a href="#sec-5">多模态</a><span class="nav-sep">/</span>
-  <a href="#sec-5b">3DV</a><span class="nav-sep">/</span>
-  <a href="#sec-6">大模型</a><span class="nav-sep">/</span>
-  <a href="#sec-7">方法论</a>
-  <span class="nav-spacer"></span>
-  <button class="reset-btn" onclick="resetAll()">🗑️</button>
-</div>
-
 <div class="global-progress">
   <span class="label"><i class="fa-regular fa-circle-check" style="color:#7BA4BE;margin-right:4px;"></i>总进度</span>
   <div class="bar-wrap"><div class="bar-fill" id="totalBar"></div></div>
@@ -1620,7 +1620,7 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 </div>
 
 <!-- ORDER -->
-<div class="section">
+<div class="section" id="sec-order">
   <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>学习顺序建议</h2><span class="section-progress">—</span></div>
   <div class="section-body">
     <div class="note-box"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#8BBB8F;margin-right:6px;"></span><strong>第一阶段 · 已掌握</strong><br>ResNet → Transformer → ViT → Swin Transformer</div>
@@ -1631,7 +1631,7 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 </div>
 
 <!-- RESOURCES -->
-<div class="section">
+<div class="section" id="sec-resources">
   <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>三大资源总览</h2><span class="section-progress">—</span></div>
   <div class="section-body">
     <table class="appendix-table">
@@ -1652,6 +1652,7 @@ body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Se
 
 <div class="footer"><i class="fa-regular fa-floppy-disk"></i> 进度与自定义链接自动保存在浏览器本地</div>
 
+</div>
 </div>
 
 <script>
@@ -1705,6 +1706,25 @@ const links=JSON.parse(localStorage.getItem(LK)||'{}');
 const content={checks,links,updated:new Date().toISOString()};
 fetch('https://api.github.com/gists/'+cfg.gist,{method:'PATCH',headers:{Authorization:'Bearer '+cfg.token,'Content-Type':'application/json'},body:JSON.stringify({files:{"dl-roadmap-progress.json":{content:JSON.stringify(content,null,2)}}})}).catch(()=>{})}
 let timer;
+
+// ===== Sidebar: toggle (mobile) =====
+(function(){
+const sb=document.getElementById('sidebar'),to=document.getElementById('sidebarToggle'),ov=document.getElementById('sidebarOverlay');
+function closeSidebar(){sb&&sb.classList.remove('open');ov&&ov.classList.remove('open')}
+if(to)to.addEventListener('click',function(e){e.stopPropagation();sb&&sb.classList.toggle('open');ov&&ov.classList.toggle('open')});
+if(ov)ov.addEventListener('click',closeSidebar);
+// close on nav click (mobile)
+document.querySelectorAll('.sidebar-nav a').forEach(function(a){a.addEventListener('click',closeSidebar)});
+// ===== Scroll-spy: highlight active section =====
+var sections=document.querySelectorAll('.section[id]');
+var links=document.querySelectorAll('.sidebar-nav a[data-target]');
+function updateActive(){var top=window.scrollY+120;var cur=null;
+for(var i=0;i<sections.length;i++){var s=sections[i];if(s.offsetTop<=top)cur=s.getAttribute('id')}
+for(var j=0;j<links.length;j++){var l=links[j];l.classList.toggle('active',l.getAttribute('data-target')===cur)}}
+window.addEventListener('scroll',updateActive,{passive:true});
+window.addEventListener('resize',updateActive,{passive:true});
+updateActive()
+})();
 </script>
 </body>
 </html>
