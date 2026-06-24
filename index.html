@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深度学习系统学习路线图</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Noto+Serif+SC:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:#1A1816;color:#D4CFC8;font-family:'Noto Serif SC','Source Han Serif SC','Songti SC',serif;line-height:1.7;padding:2rem 1rem;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(123,164,190,.3);color:#EDE8E0}
+.container{max-width:960px;margin:0 auto}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#1A1816}
+::-webkit-scrollbar-thumb{background:rgba(200,185,170,.12);border-radius:3px}
+
+.header{text-align:center;margin-bottom:2.5rem;padding:2.8rem 1.5rem 2.2rem;background:#22201D;border-radius:16px;border:1px solid rgba(200,185,170,.08);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#7BA4BE,transparent);opacity:.35}
+.header h1{font-size:2rem;font-weight:400;letter-spacing:.04em;color:#EDE8E0;margin-bottom:.5rem}
+.header h1 span{color:#7BA4BE}
+.header .subtitle{color:#9A958E;font-size:.9rem;line-height:1.6}
+.header .badge-row{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.header .badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(123,164,190,.1);color:#7BA4BE;padding:.2rem .65rem;border-radius:20px;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.75rem}
+
+.resource-links{background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.resource-links h3{font-size:.95rem;font-weight:500;color:#EDE8E0;margin-bottom:.6rem;letter-spacing:.01em}
+.resource-links .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.5rem}
+.resource-links .card{background:rgba(123,164,190,.04);border:1px solid rgba(200,185,170,.06);border-radius:8px;padding:.55rem .7rem;display:flex;align-items:center;gap:.5rem}
+.resource-links .card i{width:1.1rem;text-align:center;font-size:.85rem;color:#7BA4BE;flex-shrink:0}
+.resource-links .card .info{flex:1;min-width:0}
+.resource-links .card .name{font-size:.8rem;color:#EDE8E0;font-weight:500;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+.resource-links .card .url{font-size:.68rem;color:#6B6760;word-break:break-all;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+.resource-links .card a{color:#7BA4BE;text-decoration:none}
+.resource-links .card a:hover{text-decoration:underline}
+
+.global-progress{background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap}
+.global-progress .label{font-size:.85rem;color:#9A958E;white-space:nowrap;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+.global-progress .bar-wrap{flex:1;min-width:120px;height:8px;background:rgba(200,185,170,.08);border-radius:4px;overflow:hidden}
+.global-progress .bar-fill{height:100%;width:0%;background:#7BA4BE;border-radius:4px;transition:width .5s ease}
+.global-progress .stat{font-size:.85rem;color:#9A958E;white-space:nowrap;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+.global-progress .stat strong{color:#EDE8E0;font-weight:500}
+
+.edit-toggle-wrap{display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;padding:.5rem 0}
+.edit-toggle-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.8rem;color:#9A958E;background:transparent;border:1px solid rgba(200,185,170,.12);border-radius:8px;padding:.35rem .8rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.4rem}
+.edit-toggle-btn:hover{border-color:#7BA4BE;color:#7BA4BE}
+.edit-toggle-btn.active{background:rgba(123,164,190,.1);border-color:#7BA4BE;color:#7BA4BE}
+.edit-toggle-hint{font-size:.75rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+
+.section{background:#22201D;border:1px solid rgba(200,185,170,.08);border-radius:12px;margin-bottom:1.25rem;overflow:hidden;transition:box-shadow .2s}
+.section:hover{box-shadow:0 2px 16px rgba(0,0,0,.25)}
+.section-header{padding:.9rem 1.25rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;transition:background .2s;position:relative}
+.section-header::after{content:'';position:absolute;bottom:0;left:1.25rem;right:1.25rem;height:1px;background:rgba(200,185,170,.04)}
+.section-header:hover{background:rgba(123,164,190,.04)}
+.section-header .toggle-icon{flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:#6B6760;font-size:.65rem;transition:transform .3s ease;background:rgba(200,185,170,.05);border-radius:4px}
+.section-header.collapsed .toggle-icon{transform:rotate(-90deg)}
+.section-header h2{font-size:1.05rem;font-weight:500;letter-spacing:.01em;flex:1;min-width:0;color:#EDE8E0}
+.section-header .section-note{font-size:.75rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;display:none}
+@media(min-width:640px){.section-header .section-note{display:inline}}
+.section-header .section-progress{font-size:.78rem;color:#9A958E;font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap;background:rgba(123,164,190,.08);padding:.12rem .5rem;border-radius:4px;min-width:2.6rem;text-align:center}
+.section-body{padding:.75rem 1.25rem 1rem;transition:max-height .35s ease,opacity .3s ease,padding .3s ease;overflow:hidden}
+.section-header.collapsed+.section-body{max-height:0!important;padding-top:0;padding-bottom:0;opacity:0}
+
+.sub-section{display:flex;align-items:baseline;gap:.5rem;margin:.7rem 0 .35rem;padding-top:.3rem}
+.sub-section h3{font-size:.92rem;font-weight:500;color:#7BA4BE;border-left:2.5px solid #7BA4BE;padding-left:.6rem;letter-spacing:.01em}
+.sub-section .sub-count{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:.72rem;color:#6B6760}
+
+.item{display:flex;align-items:flex-start;gap:.65rem;padding:.55rem .5rem .55rem 0;border-bottom:1px solid rgba(200,185,170,.025);transition:all .2s;position:relative}
+.item:last-child{border-bottom:none}
+.item:hover{background:rgba(123,164,190,.02);border-radius:8px;padding-left:.35rem;padding-right:.35rem}
+.item-check{flex-shrink:0;margin-top:.28rem}
+.item-check input[type="checkbox"]{display:none}
+.item-check label{display:inline-flex;width:16px;height:16px;border:1.3px solid rgba(200,185,170,.15);border-radius:3px;cursor:pointer;transition:all .25s;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.item-check label:hover{border-color:#7BA4BE}
+.item-check label::after{content:'';width:4px;height:8px;border:solid #1A1816;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:transform .18s ease;position:absolute;top:2px}
+.item-check input:checked+label{background:#7BA4BE;border-color:#7BA4BE}
+.item-check input:checked+label::after{transform:rotate(45deg) scale(1)}
+.item[data-imp=core] .item-check label{border-color:rgba(200,168,80,.25);border-width:1.5px}
+.item[data-imp=core] .item-check label:hover{border-color:#C8A050}
+.item[data-imp=core] .item-check input:checked+label{background:#C8A050;border-color:#C8A050}
+.item[data-imp=high] .item-check label{border-color:rgba(123,164,190,.18)}
+.item-content{flex:1;min-width:0;font-size:.92rem;line-height:1.65}
+.item-content .paper-title{font-weight:500;color:#C8C3BA}
+.item-content .paper-title.done{color:#7BAE7F}
+.item-content .paper-title.learning{color:#D49A7A}
+.item-content .year-badge{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:.65rem;color:#6B6760;background:rgba(200,185,170,.05);padding:.04rem .5rem;border-radius:10px;letter-spacing:.02em}
+
+/* Importance font colors */
+.item[data-imp=core] .paper-title{color:#E8D09C !important;font-size:1.04rem;font-weight:600;letter-spacing:.01em}
+.item[data-imp=core] .paper-title.done{color:#A8D4AC !important}
+.item[data-imp=core] .paper-title.learning{color:#E8B890 !important}
+.item[data-imp=high] .paper-title{color:#D8D4CB !important;font-size:.97rem;font-weight:550}
+.item[data-imp=high] .paper-title.done{color:#8BBB8F}
+
+/* Core highlight */
+.item[data-imp=core]{position:relative;border-left:3px solid rgba(200,168,80,.22);padding:.5rem .5rem .5rem .65rem;border-radius:0 8px 8px 0;margin:2px 0;background:rgba(200,168,80,.012)}
+.item[data-imp=core]:hover{background:rgba(200,168,80,.04)}
+.item[data-imp=core] .paper-title::before{content:'★ ';color:#C8A050;font-size:.8rem;font-weight:400}
+.item[data-imp=high]{border-left:2.5px solid rgba(123,164,190,.12);padding:.5rem .5rem .5rem .55rem;border-radius:0 8px 8px 0;background:rgba(123,164,190,.008)}
+.item[data-imp=high]:hover{background:rgba(123,164,190,.035)}
+
+/* Description - softer, more refined */
+.item-content .paper-desc{font-size:.8rem;color:#8A857E;line-height:1.55;margin-top:.12rem;padding-right:.3rem}
+
+/* Tags as pills */
+.item-content .paper-meta{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.7rem;color:#6B6760;margin-top:.1rem;display:flex;flex-wrap:wrap;gap:.25rem}
+.item-content .paper-meta .tag{display:inline-block;padding:.04rem .5rem;border-radius:10px;font-size:.68rem}
+.tag.bili{background:rgba(0,161,214,.06);color:#5BB8D6}
+.tag.zhihu{background:rgba(0,130,210,.05);color:#5298C8}
+.tag.arxiv{background:rgba(123,164,190,.06);color:#7BA4BE}
+.tag.learned{background:rgba(139,187,143,.07);color:#8BBB8F}
+.tag.wip{background:rgba(212,154,122,.1);color:#D49A7A}
+.tag.plan{background:rgba(123,164,190,.06);color:#7BA4BE}
+.tag.highlight{background:rgba(200,168,80,.1);color:#C8A050}
+
+.link-row{display:flex;flex-wrap:wrap;gap:.2rem .25rem;margin-top:.22rem;align-items:center}
+.link-row a,.link-row .custom-link-item{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.68rem;color:#5B8DA8;text-decoration:none;display:inline-flex;align-items:center;gap:.2rem;padding:.06rem .5rem .06rem .4rem;border-radius:12px;transition:all .15s;border:1px solid rgba(123,164,190,.1);background:rgba(123,164,190,.04);white-space:nowrap}
+.link-row a:hover{background:rgba(123,164,190,.1);border-color:rgba(123,164,190,.2);color:#6DAEC9}
+.link-row a i{font-size:.6rem;width:.7rem;text-align:center}
+.link-row .add-link-btn{font-size:.62rem;color:#6B6760;background:none;border:1px dashed rgba(200,185,170,.08);border-radius:10px;padding:.06rem .4rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.2rem;opacity:0;flex-shrink:0}
+.item:hover .add-link-btn,.edit-mode .add-link-btn{opacity:.6}
+.add-link-btn:hover{opacity:1!important;color:#7BA4BE;border-color:#7BA4BE;background:rgba(123,164,190,.06)}
+.link-row .custom-link-item .remove-link{display:none;margin-left:.1rem;color:#B06060;cursor:pointer;font-size:.55rem;background:none;border:none;padding:0 2px}
+.edit-mode .custom-link-item .remove-link{display:inline}
+.edit-mode .custom-link-item{border:1px solid rgba(200,185,170,.06);background:rgba(200,185,170,.03)}
+
+.add-link-form{display:none;width:100%;padding:.4rem .3rem .2rem;gap:.3rem;flex-wrap:wrap;align-items:center}
+.add-link-form.open{display:flex}
+.add-link-form input,.add-link-form select{background:#1A1816;border:1px solid rgba(200,185,170,.1);border-radius:4px;padding:.2rem .4rem;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.72rem;color:#D4CFC8;outline:none;transition:border-color .2s}
+.add-link-form input::placeholder{color:#6B6760}
+.add-link-form input:focus,.add-link-form select:focus{border-color:#7BA4BE}
+.add-link-form input[type="text"]{flex:1;min-width:100px}
+.add-link-form input[type="url"]{flex:2;min-width:150px}
+.add-link-form select{min-width:70px}
+.add-link-form .form-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.7rem;border:none;border-radius:4px;padding:.2rem .5rem;cursor:pointer;transition:background .15s}
+.add-link-form .form-btn.save{background:rgba(123,164,190,.15);color:#7BA4BE}
+.add-link-form .form-btn.save:hover{background:rgba(123,164,190,.25)}
+.add-link-form .form-btn.cancel{background:transparent;color:#6B6760}
+.add-link-form .form-btn.cancel:hover{color:#B06060}
+
+.resource-box{background:rgba(123,164,190,.04);border-left:2.5px solid #7BA4BE;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.5rem 0 .15rem}
+.resource-box h4{font-size:.82rem;font-weight:500;color:#7BA4BE;margin-bottom:.25rem;letter-spacing:.01em;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+.resource-box ul{list-style:none;padding:0}
+.resource-box li{font-size:.78rem;color:#9A958E;padding:.08rem 0;padding-left:.5rem;position:relative}
+.resource-box li::before{content:'·';position:absolute;left:0;color:#7BA4BE;font-weight:500}
+.resource-box li a{color:#7BA4BE;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.resource-box li a:hover{border-bottom-color:#7BA4BE}
+
+.note-box{background:rgba(123,164,190,.04);border-radius:8px;padding:.8rem 1rem;margin:.5rem 0;font-size:.85rem;color:#9A958E;line-height:1.6}
+.note-box strong{color:#EDE8E0;font-weight:500}
+.appendix-table{width:100%;border-collapse:collapse;font-size:.83rem;margin:.4rem 0}
+.appendix-table th{text-align:left;font-weight:500;color:#7BA4BE;padding:.35rem .6rem .3rem 0;border-bottom:1px solid rgba(200,185,170,.1);font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.74rem}
+.appendix-table td{padding:.35rem .6rem .3rem 0;border-bottom:1px solid rgba(200,185,170,.04);vertical-align:top}
+
+.reset-btn{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.78rem;color:#6B6760;background:none;border:1px solid rgba(200,185,170,.1);border-radius:6px;padding:.3rem .7rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.3rem}
+.reset-btn:hover{color:#C07070;border-color:rgba(192,112,112,.3);background:rgba(192,112,112,.05)}
+
+.sticky-nav{position:sticky;top:.5rem;z-index:20;background:rgba(26,24,22,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(200,185,170,.06);border-radius:12px;padding:.55rem 1rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .7rem}
+.sticky-nav a{font-family:system-ui,-apple-system,'PingFang SC',sans-serif;font-size:.78rem;color:#6B6760;text-decoration:none;transition:color .2s;white-space:nowrap;padding:.1rem .2rem}
+.sticky-nav a:hover{color:#7BA4BE}
+.sticky-nav .nav-sep{color:rgba(200,185,170,.08);font-size:.6rem}
+.sticky-nav .nav-spacer{flex:1}
+
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin:.6rem 0}
+.summary-card{background:rgba(123,164,190,.04);border:1px solid rgba(200,185,170,.06);border-radius:8px;padding:.55rem .7rem;text-align:center}
+.summary-card .num{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:1.3rem;color:#7BA4BE;line-height:1.3}
+.summary-card .lbl{font-size:.7rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif}
+
+.footer{text-align:center;padding:2rem 0 .5rem;font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.6}
+
+@media(max-width:640px){
+ body{padding:1rem .5rem}
+ .header{padding:1.8rem 1rem 1.5rem;border-radius:12px}
+ .header h1{font-size:1.4rem}
+ .section-header{padding:.7rem .9rem}
+ .section-body{padding:.5rem .9rem .85rem}
+ .resource-links{padding:.8rem 1rem}
+ .resource-links .grid{grid-template-columns:1fr}
+ .global-progress{padding:.85rem 1rem;border-radius:10px;gap:.8rem}
+ .sticky-nav{padding:.45rem .7rem;gap:.2rem .4rem;border-radius:10px}
+ .sticky-nav a{font-size:.72rem}
+ .item{padding:.4rem 0}
+ .item-content{font-size:.85rem}
+ .item-content .paper-desc{font-size:.78rem}
+ .summary-grid{grid-template-columns:repeat(3,1fr)}
+ .add-link-form input[type="text"]{min-width:70px}
+ .add-link-form input[type="url"]{min-width:90px}
+}
+</style>
+</head>
+<body>
+<!-- Decorative SVG top bar -->
+<svg style="position:fixed;top:0;left:0;width:100%;height:4px;z-index:100;pointer-events:none" preserveAspectRatio="none">
+  <rect width="100%" height="4" fill="#1A1816"/>
+  <rect width="30%" height="4" fill="#7BA4BE" opacity=".3"/>
+</svg>
+
+<!-- Subtle background pattern -->
+<svg style="position:fixed;top:0;right:0;width:300px;height:300px;z-index:0;pointer-events:none;opacity:.015" viewBox="0 0 100 100">
+  <defs><pattern id="g" patternUnits="userSpaceOnUse" width="10" height="10"><circle cx="1" cy="1" r="1" fill="#7BA4BE"/></pattern></defs>
+  <rect width="100" height="100" fill="url(#g)"/>
+</svg>
+
+<div class="container" style="position:relative;z-index:1">
+
+<div class="header">
+  <h1>深度学习 · <span>系统路线图</span></h1>
+  <div class="subtitle"><i class="fa-regular fa-compass" style="color:#7BA4BE;margin-right:4px;font-size:.8rem;"></i>科技猛兽 · Dezeming · 李沐论文精读</div>
+  <div class="badge-row">
+    <span class="badge"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span>
+    <span class="badge"><i class="fa-brands fa-zhihu"></i> Dezeming</span>
+    <span class="badge"><i class="fa-brands fa-bilibili"></i> 李沐论文精读</span>
+    <span class="badge"><i class="fa-regular fa-pen-to-square"></i> 自定义链接</span>
+  </div>
+</div>
+
+<!-- ===== Resource Overview ===== -->
+<div class="resource-links">
+  <h3><i class="fa-regular fa-map" style="color:#7BA4BE;margin-right:6px;"></i> 总览 · 学习资源入口</h3>
+  <div class="grid">
+    <div class="card">
+      <i class="fa-brands fa-github"></i>
+      <div class="info">
+        <a href="https://github.com/mli/paper-reading" target="_blank"><div class="name">李沐论文精读 (GitHub)</div></a>
+        <div class="url">github.com/mli/paper-reading</div>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fa-brands fa-bilibili"></i>
+      <div class="info">
+        <a href="https://space.bilibili.com/1567748478" target="_blank"><div class="name">李沐 B站主页</div></a>
+        <div class="url">space.bilibili.com/1567748478</div>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fa-brands fa-zhihu"></i>
+      <div class="info">
+        <a href="https://www.zhihu.com/people/wang-jia-hao-hku/columns" target="_blank"><div class="name">科技猛兽 (王嘉豪) 专栏</div></a>
+        <div class="url">zhihu.com/people/wang-jia-hao-hku</div>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fa-brands fa-zhihu"></i>
+      <div class="info">
+        <a href="https://www.zhihu.com/people/dezeming/columns" target="_blank"><div class="name">Dezeming 专栏</div></a>
+        <div class="url">zhihu.com/people/dezeming</div>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fa-regular fa-file-lines"></i>
+      <div class="info">
+        <a href="https://arxiv.org/search/" target="_blank"><div class="name">arXiv 论文搜索</div></a>
+        <div class="url">arxiv.org</div>
+      </div>
+    </div>
+    <div class="card">
+      <i class="fa-regular fa-note-sticky"></i>
+      <div class="info">
+        <a href="https://d2l.ai/" target="_blank"><div class="name">动手学深度学习 (d2l)</div></a>
+        <div class="url">d2l.ai</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-nav">
+  <a href="#sec-1">基石</a><span class="nav-sep">/</span>
+  <a href="#sec-2">视觉Transformer</a><span class="nav-sep">/</span>
+  <a href="#sec-3">自监督</a><span class="nav-sep">/</span>
+  <a href="#sec-4">扩散模型</a><span class="nav-sep">/</span>
+  <a href="#sec-5">多模态</a><span class="nav-sep">/</span>
+  <a href="#sec-5b">3DV</a><span class="nav-sep">/</span>
+  <a href="#sec-6">大模型</a><span class="nav-sep">/</span>
+  <a href="#sec-7">方法论</a>
+  <span class="nav-spacer"></span>
+  <button class="reset-btn" onclick="resetAll()"><i class="fa-regular fa-trash-can"></i> 重置</button>
+</div>
+
+<div class="global-progress">
+  <span class="label"><i class="fa-regular fa-circle-check" style="color:#7BA4BE;margin-right:4px;"></i>总进度</span>
+  <div class="bar-wrap"><div class="bar-fill" id="totalBar"></div></div>
+  <span class="stat" id="totalStat"><strong>0</strong> / <strong>0</strong></span>
+</div>
+
+<div class="edit-toggle-wrap">
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;flex:1">
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:rgba(200,168,80,.25);border-left:2px solid #C8A050"></span> <strong style="color:#C8A050;font-weight:500;">★ 核心</strong>
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:rgba(123,164,190,.12);border-left:2px solid #7BA4BE"></span> 重要
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:#6B6760;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;">
+      <span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:rgba(200,185,170,.04);border-left:2px solid rgba(200,185,170,.12)"></span> 补充
+    </span>
+  </div>
+  <button class="edit-toggle-btn" id="editToggleBtn" onclick="toggleEditMode()"><i class="fa-regular fa-pen-to-square"></i> 编辑链接</button>
+  <span class="edit-toggle-hint">开启后每条旁出现 <i class="fa-regular fa-plus" style="color:#6B6760;"></i> 按钮</span>
+</div>
+
+<!-- ===== S1 ===== -->
+<div class="section" id="sec-1">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>一、深度学习基石</h2><span class="section-note"><i class="fa-regular fa-layer-group" style="margin-right:3px;font-size:.7rem;"></i>CNN · Transformer 原文</span><span class="section-progress" data-sk="sec1">0%</span></div>
+  <div class="section-body">
+    <div class="sub-section"><h3>CNN 经典架构</h3><span class="sub-count">6 篇</span></div>
+
+    <div class="item" data-id="alexnet" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_alexnet"><label for="c_alexnet"></label></div>
+      <div class="item-content">
+        <span class="paper-title">AlexNet</span> <span class="year-badge">2012</span>
+        <div class="paper-desc">深度学习热潮的奠基作。首次在大规模图像分类中证明深度 CNN + GPU 训练的威力，用 ReLU、Dropout、数据增强等技巧让深度网络变得可用。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag learned">必读</span></div>
+        <div class="link-row" data-item="alexnet">
+          <a href="https://papers.nips.cc/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <a href="https://www.bilibili.com/video/BV1hT4y1E7wN" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 (上)</a>
+          <a href="https://www.bilibili.com/video/BV1RA411L7eY" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 (下)</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="vgg">
+      <div class="item-check"><input type="checkbox" id="c_vgg"><label for="c_vgg"></label></div>
+      <div class="item-content">
+        <span class="paper-title">VGG</span> <span class="year-badge">2014</span>
+        <div class="paper-desc">系统性地探索网络深度对性能的影响。全部使用 3×3 小卷积核堆叠，证明更深的网络效果更好，但也揭示了"越深越好"并非无限。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="vgg">
+          <a href="https://arxiv.org/pdf/1409.1556.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="googlenet">
+      <div class="item-check"><input type="checkbox" id="c_googlenet"><label for="c_googlenet"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GoogLeNet / Inception</span> <span class="year-badge">2014</span>
+        <div class="paper-desc">提出 Inception 模块：在同一层用不同尺寸的卷积核并行提取特征，用 1×1 卷积降维控制计算量。证明精心设计的"宽"架构可以代替"深"。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="googlenet">
+          <a href="https://arxiv.org/pdf/1409.4842.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="resnet" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_resnet"><label for="c_resnet"></label></div>
+      <div class="item-content">
+        <span class="paper-title done">ResNet</span> (2015)
+        <div class="paper-desc">提出残差连接（skip connection），让梯度可以直接流过恒等映射，从而训练超过百层的深度网络。现代几乎所有深度模型都在用残差连接。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="resnet">
+          <a href="https://arxiv.org/abs/1512.03385" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1fA41197jH" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mobilenet">
+      <div class="item-check"><input type="checkbox" id="c_mobilenet"><label for="c_mobilenet"></label></div>
+      <div class="item-content">
+        <span class="paper-title">MobileNet</span> <span class="year-badge">2017</span>
+        <div class="paper-desc">用深度可分离卷积（depthwise separable convolution）大幅减少参数量和计算量，让 CNN 在移动端/嵌入式设备上可用。开启了高效架构设计方向。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="mobilenet">
+          <a href="https://arxiv.org/pdf/1704.04861.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="efficientnet">
+      <div class="item-check"><input type="checkbox" id="c_efficientnet"><label for="c_efficientnet"></label></div>
+      <div class="item-content">
+        <span class="paper-title">EfficientNet</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">用神经架构搜索系统性地规模化网络深度、宽度和分辨率三个维度，发现三者间存在最优比例。在同等 FLOPs 下达到当时最高精度。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="efficientnet">
+          <a href="https://arxiv.org/pdf/1905.11946.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>Transformer 原始论文</h3><span class="sub-count">1 篇 · 必读</span></div>
+
+    <div class="item" data-id="transformer" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_transformer"><label for="c_transformer"></label></div>
+      <div class="item-content">
+        <span class="paper-title done">Transformer</span> (2017)
+        <div class="paper-desc">"Attention Is All You Need"。完全抛弃 RNN/CNN，只用自注意力机制做序列建模，实现并行计算和长程依赖建模。现代 LLM、ViT 等的架构基础。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> Dezeming</span><span class="tag learned">核心 · 必读</span></div>
+        <div class="link-row" data-item="transformer">
+          <a href="https://arxiv.org/abs/1706.03762" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1pu411o7BE" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/82312421" target="_blank"><i class="fa-brands fa-zhihu"></i> Dezeming解读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resource-box">
+      <h4>📖 推荐补充阅读</h4>
+      <ul>
+        <li>科技猛兽「Transformer和MLP日积月累」→ <a href="https://www.zhihu.com/column/c_1260183218026213376" target="_blank">zhihu.com/column/c_1260183218026213376</a></li>
+        <li>Dezeming 十分钟理解 Transformer → <a href="https://zhuanlan.zhihu.com/p/82312421" target="_blank">zhuanlan.zhihu.com/p/82312421</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== S2 ===== -->
+<div class="section" id="sec-2">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>二、视觉 Transformer</h2><span class="section-note"><i class="fa-regular fa-eye" style="margin-right:3px;font-size:.7rem;"></i>ViT ✅ · Swin ✅</span><span class="section-progress" data-sk="sec2">0%</span></div>
+  <div class="section-body">
+
+    <div class="item" data-id="vit" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_vit"><label for="c_vit"></label></div>
+      <div class="item-content">
+        <span class="paper-title done">ViT</span> (2020)
+        <div class="paper-desc">将图像切成 16×16 的 patch，拉直后当作 token 序列送入标准 Transformer Encoder。证明纯 Transformer 无需 CNN 归纳偏置，在足够大数据下可以超过 CNN。</div>
+        <div class="paper-meta"><span class="tag learned">已掌握</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="vit">
+          <a href="https://arxiv.org/abs/2010.11929" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1og411L7mQ" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/340149804" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽解读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="swin" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_swin"><label for="c_swin"></label></div>
+      <div class="item-content">
+        <span class="paper-title done">Swin Transformer</span> (2021)
+        <div class="paper-desc">提出层次化架构 + 窗口注意力（W-MSA）和 shifted window 机制，在减少计算复杂度的同时保持跨窗口信息交流，让 ViT 可以像 CNN 一样做密集预测。</div>
+        <div class="paper-meta"><span class="tag learned">已掌握</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="swin">
+          <a href="https://arxiv.org/abs/2103.14030" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1pL4y1v7jC" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/367111046" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽解读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mlpmixer">
+      <div class="item-check"><input type="checkbox" id="c_mlpmixer"><label for="c_mlpmixer"></label></div>
+      <div class="item-content">
+        <span class="paper-title">MLP-Mixer</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">挑战 attention 的必要性：只用 MLP 跨 patch 混合空间信息、跨通道混合特征。证明 Transformer 的成功可能更多来自架构设计而非注意力本身。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="mlpmixer">
+          <a href="https://arxiv.org/abs/2105.01601" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="deit">
+      <div class="item-check"><input type="checkbox" id="c_deit"><label for="c_deit"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DeiT</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">解决 ViT 需要超大数据预训练的痛点。引入知识蒸馏 + 数据高效训练策略（registers token、CutMix 等使 ViT 仅用 ImageNet 就能训出好效果的技巧）。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="deit">
+          <a href="https://arxiv.org/abs/2012.12877" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="convnext">
+      <div class="item-check"><input type="checkbox" id="c_convnext"><label for="c_convnext"></label></div>
+      <div class="item-content">
+        <span class="paper-title">ConvNeXt</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">用 Swin Transformer 的设计理念（GELU、LayerNorm、大核卷积等）反哺 CNN，证明纯 CNN 在吸收 Transformer 优点后可以达到同样先进水平。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="convnext">
+          <a href="https://arxiv.org/abs/2201.03545" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resource-box">
+      <h4>📖 科技猛兽专栏</h4>
+      <ul>
+        <li><a href="https://www.zhihu.com/column/c_1260183218026213376" target="_blank">「Transformer和MLP日积月累」</a> — 74 篇覆盖 ViT 全部变体</li>
+        <li><a href="https://zhuanlan.zhihu.com/p/348593638" target="_blank">[目录] Vision Transformer, LLM, Diffusion Model 超详细解读</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== S3 ===== -->
+<div class="section" id="sec-3">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>三、自监督学习</h2><span class="section-note"><i class="fa-regular fa-copy" style="margin-right:3px;font-size:.7rem;"></i>MoCo ✅ · MAE 📖 · DINO 📅</span><span class="section-progress" data-sk="sec3">0%</span></div>
+  <div class="section-body">
+
+    <div class="sub-section"><h3>对比学习奠基</h3><span class="sub-count">12 篇</span></div>
+
+    <div class="item" data-id="instdisc">
+      <div class="item-check"><input type="checkbox" id="c_instdisc"><label for="c_instdisc"></label></div>
+      <div class="item-content">
+        <span class="paper-title">InstDisc</span> <span class="year-badge">2018</span>
+        <div class="paper-desc">提出实例判别任务：把每张图片视为一个类别，让模型区分不同图片。引入 memory bank 存储大量负样本特征向量，是对比学习方法的重要雏形。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="instdisc">
+          <a href="https://arxiv.org/pdf/1805.01978.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="cpc">
+      <div class="item-check"><input type="checkbox" id="c_cpc"><label for="c_cpc"></label></div>
+      <div class="item-content">
+        <span class="paper-title">CPC</span> <span class="year-badge">2018</span>
+        <div class="paper-desc">对比预测编码。提出用当前时刻的上下文表示去预测未来的隐表示，而不是预测原始信号。引入 InfoNCE loss，成为后续对比学习的标准损失函数。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="cpc">
+          <a href="https://arxiv.org/pdf/1807.03748.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="invaspread">
+      <div class="item-check"><input type="checkbox" id="c_invaspread"><label for="c_invaspread"></label></div>
+      <div class="item-content">
+        <span class="paper-title">InvaSpread</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">提出端到端的对比学习框架，用一个编码器同时编码正负样本，共享参数更新。不再使用 memory bank，但受限于 batch size 内负样本数量。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="invaspread">
+          <a href="https://arxiv.org/pdf/1904.03436.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="cmc">
+      <div class="item-check"><input type="checkbox" id="c_cmc"><label for="c_cmc"></label></div>
+      <div class="item-content">
+        <span class="paper-title">CMC</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">多视角对比学习。将同一场景的不同视角（不同颜色空间、不同传感器模态）视为正样本对，通过对比学习对齐它们的表征。证明多视角信息是对比学习的关键。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="cmc">
+          <a href="https://arxiv.org/pdf/1906.05849.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="moco" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_moco"><label for="c_moco"></label></div>
+      <div class="item-content">
+        <span class="paper-title done">MoCo v1</span> (2019)
+        <div class="paper-desc">动量对比学习。引入动量编码器 + 队列结构，将负样本数量从 batch size 扩展到队列长度，解耦了负样本数量和 batch size。同时保证了特征编码的一致性。</div>
+        <div class="paper-meta"><span class="tag learned">已掌握</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="moco">
+          <a href="https://arxiv.org/abs/1911.05722" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1C3411s7Tz" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/382763210" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽MoCo</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="simclr" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_simclr"><label for="c_simclr"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SimCLR v1</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">化繁为简的端到端对比学习框架。核心发现：数据增强组合 + MLP projection head + 足够大的 batch 是成功的关键三要素。不需要 memory bank。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(二)</span></div>
+        <div class="link-row" data-item="simclr">
+          <a href="https://arxiv.org/abs/2002.05709" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mocov2">
+      <div class="item-check"><input type="checkbox" id="c_mocov2"><label for="c_mocov2"></label></div>
+      <div class="item-content">
+        <span class="paper-title">MoCo v2</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">将 SimCLR 的两个核心技巧（MLP head + 更强的数据增强）移植到 MoCo v1 中。只用了 2 页纸的技术报告，就证明 MoCo 架构吸收这些技巧后超越 SimCLR。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(四)</span></div>
+        <div class="link-row" data-item="mocov2">
+          <a href="https://arxiv.org/abs/2003.04297" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/382763210" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽MoCo</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="simclrv2">
+      <div class="item-check"><input type="checkbox" id="c_simclrv2"><label for="c_simclrv2"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SimCLR v2</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">更大的模型（152 层 ResNet）+ 更深的 projection head + 自蒸馏。证明自监督预训练模型在少量标签下半监督微调效果极佳。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(二)</span></div>
+        <div class="link-row" data-item="simclrv2">
+          <a href="https://arxiv.org/abs/2006.10029" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="byol" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_byol"><label for="c_byol"></label></div>
+      <div class="item-content">
+        <span class="paper-title">BYOL</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">"Bootstrap Your Own Latent" — 完全不需要负样本的对比学习。用一个在线网络预测目标网络的输出，目标网络由在线网络的指数移动平均得到。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(六)</span></div>
+        <div class="link-row" data-item="byol">
+          <a href="https://arxiv.org/abs/2006.07733" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="swav">
+      <div class="item-check"><input type="checkbox" id="c_swav"><label for="c_swav"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SWaV</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">交换聚类分配。将对比学习和聚类结合，对同一张图的不同增广视图分别做聚类，要求它们的聚类分配结果互相预测（交换），不需要显式负样本。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="swav">
+          <a href="https://arxiv.org/abs/2006.09882" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="simsiam">
+      <div class="item-check"><input type="checkbox" id="c_simsiam"><label for="c_simsiam"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SimSiam</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">化繁为简的孪生网络。不需要负样本、不需要动量编码器、不需要大 batch、不需要聚类。核心是两个分支共享权重 + stop-gradient 操作防止坍塌。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(八)</span></div>
+        <div class="link-row" data-item="simsiam">
+          <a href="https://arxiv.org/abs/2011.10566" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mocov3" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_mocov3"><label for="c_mocov3"></label></div>
+      <div class="item-content">
+        <span class="paper-title">MoCo v3</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">将 MoCo 框架扩展到 ViT backbone。发现自监督训练 ViT 时不稳定性问题，分析出根源在 patch embedding 层，提出冻结第一层参数来稳定训练。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(四)</span></div>
+        <div class="link-row" data-item="mocov3">
+          <a href="https://arxiv.org/abs/2104.02057" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/382763210" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽MoCo</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="ssl_survey">
+      <div class="item-check"><input type="checkbox" id="c_ssl_survey"><label for="c_ssl_survey"></label></div>
+      <div class="item-content">
+        <span class="paper-title">对比学习论文综述</span>
+        <div class="paper-desc">李沐对 12 篇对比学习经典工作的全景梳理，从 InstDisc 到 MoCo v3。按时间线讲解演进脉络，强烈建议作为本模块的前置视频建立全局认知。</div>
+        <div class="paper-meta"><span class="tag highlight">强烈建议前置</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐 (1:32:01)</span></div>
+        <div class="link-row" data-item="ssl_survey">
+          <a href="https://www.bilibili.com/video/BV19Q4y1K7Vb" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐全景梳理</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>掩码图像建模 (MIM)</h3><span class="sub-count">4 篇</span></div>
+
+    <div class="item" data-id="mae" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_mae"><label for="c_mae"></label></div>
+      <div class="item-content">
+        <span class="paper-title learning">MAE</span> (2021)
+        <div class="paper-desc">掩码自编码器。随机 mask 掉 75% 的图像 patch，Encoder 只处理可见 patch，轻量 Decoder 重建原始像素。简单高效，堪称 CV 版 BERT。</div>
+        <div class="paper-meta"><span class="tag wip">学习中 📖</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(十)</span></div>
+        <div class="link-row" data-item="mae">
+          <a href="https://arxiv.org/abs/2111.06377" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1sq4y1q7t9" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="beit" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_beit"><label for="c_beit"></label></div>
+      <div class="item-content">
+        <span class="paper-title">BEiT</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">首个将 BERT 的 masked image modeling 应用到视觉的工作。使用 dVAE tokenizer 将图像离散化为 visual token，然后预测被 mask 区域的 token，而不是直接重建像素。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(三)</span></div>
+        <div class="link-row" data-item="beit">
+          <a href="https://arxiv.org/abs/2106.08254" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="beitv2">
+      <div class="item-check"><input type="checkbox" id="c_beitv2"><label for="c_beitv2"></label></div>
+      <div class="item-content">
+        <span class="paper-title">BEiT v2</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">提出向量量化知识蒸馏（VQ-KD），用预训练的教师模型产生更高质量的 visual token 作为学习目标，替代了 BEiT 中需要额外训练的 dVAE tokenizer。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="beitv2">
+          <a href="https://arxiv.org/abs/2208.06366" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="simmim">
+      <div class="item-check"><input type="checkbox" id="c_simmim"><label for="c_simmim"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SimMIM</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">简化 MIM 框架。用简单的线性层做 prediction head，直接用 L1 loss 在原始像素空间做重建。验证了掩码图像建模的核心在于 mask 策略而非复杂的设计。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="simmim">
+          <a href="https://arxiv.org/abs/2111.09886" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>自蒸馏与综合方法</h3><span class="sub-count">3 篇</span></div>
+
+    <div class="item" data-id="dino" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_dino"><label for="c_dino"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DINO</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">自蒸馏 + 无标签。用 student 网络对齐 teacher 网络的输出分布，teacher 由 student 的 EMA 得到。最有名的是 DINO 训出的 ViT 注意力图自动关注前景目标。</div>
+        <div class="paper-meta"><span class="tag plan">计划 📅</span><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(十三)</span></div>
+        <div class="link-row" data-item="dino">
+          <a href="https://arxiv.org/abs/2104.14294" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="ibot">
+      <div class="item-check"><input type="checkbox" id="c_ibot"><label for="c_ibot"></label></div>
+      <div class="item-content">
+        <span class="paper-title">iBOT</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">把 DINO 的自蒸馏框架和 BEiT 的 masked image modeling 结合起来。同时对图像级（自蒸馏）和 patch 级（MIM）做自监督学习，效果更强。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽 SSL(七)</span></div>
+        <div class="link-row" data-item="ibot">
+          <a href="https://arxiv.org/abs/2111.07832" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="dinov2" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_dinov2"><label for="c_dinov2"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DINOv2</span> <span class="year-badge">2023</span>
+        <div class="paper-desc">把 DINO + iBOT 等技巧系统性组合，在超大规模干净数据集（LVD-142M）上训练。搭配 FlashAttention、FSDP 等工程优化，得到真正可用的视觉基础模型。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> 科技猛兽</span></div>
+        <div class="link-row" data-item="dinov2">
+          <a href="https://arxiv.org/abs/2304.07193" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽SSL</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resource-box">
+      <h4>📖 科技猛兽 SSL 系列</h4>
+      <ul>
+        <li>「自监督学习日积月累」→ <a href="https://www.zhihu.com/column/c_1385057327742025728" target="_blank">zhihu.com/column/c_1385057327742025728</a></li>
+        <li>SSL 超详细解读 (目录) → <a href="https://zhuanlan.zhihu.com/p/381354026" target="_blank">zhuanlan.zhihu.com/p/381354026</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== S4 ===== -->
+<div class="section" id="sec-4">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>四、扩散模型</h2><span class="section-note"><i class="fa-regular fa-sparkles" style="margin-right:3px;font-size:.7rem;"></i>GAN → DDPM → DiT → Sora</span><span class="section-progress" data-sk="sec4">0%</span></div>
+  <div class="section-body">
+
+    <div class="sub-section"><h3>GAN 族</h3><span class="sub-count">基础认知</span></div>
+
+    <div class="item" data-id="gan" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_gan"><label for="c_gan"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GAN</span> <span class="year-badge">2014</span>
+        <div class="paper-desc">生成对抗网络的开创工作。生成器从噪声中合成图像，判别器区分真假，两者在博弈中共同进化。理解 adversarial training 的范式对后续扩散模型的理论对比很重要。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="gan">
+          <a href="https://arxiv.org/abs/1406.2661" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1Fg4y1z7rt" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="dcgan">
+      <div class="item-check"><input type="checkbox" id="c_dcgan"><label for="c_dcgan"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DCGAN</span> <span class="year-badge">2015</span>
+        <div class="paper-desc">将 CNN 结构引入 GAN，用转置卷积做上采样、去掉全连接层、用 BatchNorm 稳定训练，让 GAN 能生成更高质量、更大尺寸的图像。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="dcgan">
+          <a href="https://arxiv.org/abs/1511.06434" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="stylegan">
+      <div class="item-check"><input type="checkbox" id="c_stylegan"><label for="c_stylegan"></label></div>
+      <div class="item-content">
+        <span class="paper-title">StyleGAN 系列</span> (2018-2021)
+        <div class="paper-desc">首次将生成过程解耦为风格（style）和噪声（stochastic variation），通过 AdaIN / 调制解调控制不同层级的视觉特征。StyleGAN3 解决了纹理粘连问题。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="stylegan">
+          <a href="https://arxiv.org/abs/1812.04948" target="_blank"><i class="fa-regular fa-file-lines"></i> StyleGAN</a>
+          <a href="https://arxiv.org/abs/2106.12423" target="_blank"><i class="fa-regular fa-file-lines"></i> StyleGAN3</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>扩散模型核心</h3><span class="sub-count">9 篇 · 主线</span></div>
+
+    <div class="item" data-id="ddpm" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_ddpm"><label for="c_ddpm"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DDPM</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">去噪扩散概率模型。定义前向过程逐步加噪至纯噪声，训练神经网络反向去噪。推导了变分下界作为训练目标，用 U-Net 做去噪网络。扩散模型的开山之作。</div>
+        <div class="paper-meta"><span class="tag plan">扩散基石</span><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> Dezeming</span></div>
+        <div class="link-row" data-item="ddpm">
+          <a href="https://arxiv.org/abs/2006.11239" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/599887666" target="_blank"><i class="fa-brands fa-zhihu"></i> Dezeming图解</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="ddim">
+      <div class="item-check"><input type="checkbox" id="c_ddim"><label for="c_ddim"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DDIM</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">去噪扩散隐式模型。将 DDPM 的生成过程重新参数化为非马尔科夫链，实现了确定性采样。可以将采样步数从 1000 缩减到 50-100 步而质量不降。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="ddim">
+          <a href="https://arxiv.org/abs/2010.02502" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="improved_ddpm">
+      <div class="item-check"><input type="checkbox" id="c_improved_ddpm"><label for="c_improved_ddpm"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Improved DDPM</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">系统改进了 DDPM 的设计选择：学习方差（不仅仅是均值）、余弦噪声调度替代线性调度、降低训练噪声上限。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="improved_ddpm">
+          <a href="https://arxiv.org/abs/2102.09672" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="classifier_guidance">
+      <div class="item-check"><input type="checkbox" id="c_classifier_guidance"><label for="c_classifier_guidance"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Guided Diffusion</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">分类器引导扩散，引入分类器的梯度来引导生成方向，使扩散模型首次在 FID 指标上超越 GAN。揭示了引导强度对样本质量和多样性的权衡。</div>
+        <div class="paper-meta"><span class="tag arxiv">李沐列表</span></div>
+        <div class="link-row" data-item="classifier_guidance">
+          <a href="https://arxiv.org/abs/2105.05233" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="ldm" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_ldm"><label for="c_ldm"></label></div>
+      <div class="item-content">
+        <span class="paper-title">LDM / Stable Diffusion</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">潜在扩散模型。用 VAE 将像素空间压缩到低维潜空间，在潜空间执行扩散过程，极大降低计算成本。Stable Diffusion 基于此架构，是开源文生图生态的基石。</div>
+        <div class="paper-meta"><span class="tag learned">里程碑</span></div>
+        <div class="link-row" data-item="ldm">
+          <a href="https://arxiv.org/abs/2112.10752" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="dalle2" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_dalle2"><label for="c_dalle2"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DALL·E 2</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">CLIP + Diffusion 的文生图方案。先用 CLIP 文本编码器得到文本 embedding，再用 prior 模型映射到图像 embedding，最后用扩散模型生成图像。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="dalle2">
+          <a href="https://arxiv.org/abs/2204.06125" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV17r4y1u77B" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="cfg">
+      <div class="item-check"><input type="checkbox" id="c_cfg"><label for="c_cfg"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Classifier-Free Guidance</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">在训练时随机丢弃条件，推理时通过外推无条件/有条件的分数差来调整生成强度。CFG 成为目前扩散模型的标准引导方式。</div>
+        <div class="paper-meta"><span class="tag arxiv">扩散标配</span></div>
+        <div class="link-row" data-item="cfg">
+          <a href="https://arxiv.org/abs/2207.12598" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="dit" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_dit"><label for="c_dit"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DiT — Diffusion Transformer</span> <span class="year-badge">2023</span>
+        <div class="paper-desc">用 Transformer 取代 U-Net 作为扩散模型的去噪骨干。通过 patchify 处理潜变量、adaLN-Zero 注入条件。验证了 Transformer 的可扩展性，GFLOPs 与 FID 呈近似幂律关系。</div>
+        <div class="paper-meta"><span class="tag zhihu"><i class="fa-brands fa-zhihu"></i> Dezeming</span><span class="tag plan">架构革命</span></div>
+        <div class="link-row" data-item="dit">
+          <a href="https://arxiv.org/abs/2212.09748" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/685867473" target="_blank"><i class="fa-brands fa-zhihu"></i> Dezeming解读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="sd3_flux">
+      <div class="item-check"><input type="checkbox" id="c_sd3_flux"><label for="c_sd3_flux"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SD 3 / Flux</span> <span class="year-badge">2024</span>
+        <div class="paper-desc">SD3 引入 MMDiT（多模态 DiT）+ Rectified Flow 流匹配训练范式。Flux 进一步优化 RF 流程，代表当前开源文生图的顶尖水平。</div>
+        <div class="paper-meta"><span class="tag arxiv">MMDiT + RF</span></div>
+        <div class="link-row" data-item="sd3_flux">
+          <a href="https://arxiv.org/abs/2403.03206" target="_blank"><i class="fa-regular fa-file-lines"></i> SD3 arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="sora" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_sora"><label for="c_sora"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Sora</span> <span class="year-badge">2024</span>
+        <div class="paper-desc">OpenAI 的视频生成模型。基于 DiT 架构，将视频和图像统一为时空 patch，在大规模数据上训练。展示了 Transformer 架构在视频生成上的可扩展性。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="sora">
+          <a href="https://openai.com/index/video-generation-models-as-world-simulators/" target="_blank"><i class="fa-regular fa-file-lines"></i> 技术报告</a>
+          <a href="https://www.bilibili.com/video/BV1VdcxesEAt" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读 (上)</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resource-box">
+      <h4>📖 推荐资源</h4>
+      <ul>
+        <li>Dezeming 图解 Diffusion → <a href="https://zhuanlan.zhihu.com/p/599887666" target="_blank">zhuanlan.zhihu.com/p/599887666</a></li>
+        <li>zsc/diffusion_tutorial (GitHub) → 14 章从理论到实践的系统教程</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== S5 ===== -->
+<div class="section" id="sec-5">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>五、多模态学习</h2><span class="section-note"><i class="fa-regular fa-image" style="margin-right:3px;font-size:.7rem;"></i>CLIP 为核心</span><span class="section-progress" data-sk="sec5">0%</span></div>
+  <div class="section-body">
+
+    <div class="item" data-id="clip" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_clip"><label for="c_clip"></label></div>
+      <div class="item-content">
+        <span class="paper-title">CLIP</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">用 4 亿图文对的对比学习训练，让图像和文本在同一个 embedding 空间中对齐。zero-shot 迁移能力极强，是多模态和文生图的重要基石。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span><span class="tag learned">多模态基石</span></div>
+        <div class="link-row" data-item="clip">
+          <a href="https://openai.com/blog/clip/" target="_blank"><i class="fa-regular fa-file-lines"></i> OpenAI</a>
+          <a href="https://arxiv.org/abs/2103.00020" target="_blank"><i class="fa-regular fa-scroll"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1SL4y1s7LQ" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="clip_improve">
+      <div class="item-check"><input type="checkbox" id="c_clip_improve"><label for="c_clip_improve"></label></div>
+      <div class="item-content">
+        <span class="paper-title">CLIP 改进串讲</span>
+        <div class="paper-desc">李沐梳理的 CLIP 后续改进工作全景。覆盖了 CLIP 在检测分割（ViLD、GLIP）、视频（CLIP4Clip）、3D（PointCLIP）、文本驱动生成等多个方向的扩展。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读 (上/下)</span></div>
+        <div class="link-row" data-item="clip_improve">
+          <a href="https://www.bilibili.com/video/BV1FV4y1p7Lm" target="_blank"><i class="fa-brands fa-bilibili"></i> 上</a>
+          <a href="https://www.bilibili.com/video/BV1gg411U7n4" target="_blank"><i class="fa-brands fa-bilibili"></i> 下</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="vilt">
+      <div class="item-check"><input type="checkbox" id="c_vilt"><label for="c_vilt"></label></div>
+      <div class="item-content">
+        <span class="paper-title">ViLT</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">第一个彻底摆脱目标检测器的视觉文本模型。直接用 ViT 处理图像 patch embedding，与文本 token embedding 拼接后送入 Transformer，统一了视觉和语言的特征提取。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="vilt">
+          <a href="https://arxiv.org/abs/2102.03334" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV14r4y1j74y" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="glip">
+      <div class="item-check"><input type="checkbox" id="c_glip"><label for="c_glip"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GLIP</span> <span class="year-badge">2021</span>
+        <div class="paper-desc">联合目标检测和文本定位。将目标检测任务重新定义为短语定位问题，统一了检测和 grounding 的训练目标，利用大量图文对数据做弱监督训练。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="glip">
+          <a href="https://arxiv.org/abs/2112.03857" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="groupvit">
+      <div class="item-check"><input type="checkbox" id="c_groupvit"><label for="c_groupvit"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GroupViT</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">只用图像文本对做无监督语义分割。在 ViT 中引入分组机制，将 patch tokens 逐步聚合成语义组，通过对比学习使这些组与文本概念对齐。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="groupvit">
+          <a href="https://arxiv.org/abs/2202.11094" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://zhuanlan.zhihu.com/p/348593638" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽专栏</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== S5b: 3DV ===== -->
+<div class="section" id="sec-5b">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>五、三维视觉 (3DV)</h2><span class="section-note"><i class="fa-regular fa-cube" style="margin-right:3px;font-size:.7rem;"></i>NeRF → 3DGS → 重建</span><span class="section-progress" data-sk="sec5b">0%</span></div>
+  <div class="section-body">
+
+    <div class="sub-section"><h3>隐式神经表示 (NeRF)</h3><span class="sub-count">3 篇 · 主线</span></div>
+
+    <div class="item" data-id="nerf" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_nerf"><label for="c_nerf"></label></div>
+      <div class="item-content">
+        <span class="paper-title">NeRF</span> <span class="year-badge">2020</span>
+        <div class="paper-desc">神经辐射场。用 MLP 隐式表示场景的密度和颜色，通过体渲染从多视角图片合成新视角。开创了隐式神经表示 + 可微渲染的新范式，是 3DV 领域的里程碑工作。</div>
+        <div class="paper-meta"><span class="tag arxiv">ECCV 2020</span><span class="tag learned">必读</span></div>
+        <div class="link-row" data-item="nerf">
+          <a href="https://arxiv.org/abs/2003.08934" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="instantngp" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_instantngp"><label for="c_instantngp"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Instant NGP</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">多分辨率哈希编码。用可学习的哈希表代替位置编码，配合网格结构实现秒级 NeRF 训练。大幅提升了隐式表示的效率，成为后续工作的标配组件。</div>
+        <div class="paper-meta"><span class="tag arxiv">SIGGRAPH 2022</span></div>
+        <div class="link-row" data-item="instantngp">
+          <a href="https://arxiv.org/abs/2201.05989" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mipnerf360" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_mipnerf360"><label for="c_mipnerf360"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Mip-NeRF 360</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">用锥体追踪代替光线追踪，解决 NeRF 在不同分辨率下的混叠问题。引入场景收缩和非线性参数化，将 NeRF 从有界场景扩展到无界 360° 场景。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2022</span></div>
+        <div class="link-row" data-item="mipnerf360">
+          <a href="https://arxiv.org/abs/2111.12077" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>3D Gaussian Splatting</h3><span class="sub-count">3 篇 · 重点</span></div>
+
+    <div class="item" data-id="3dgs" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_3dgs"><label for="c_3dgs"></label></div>
+      <div class="item-content">
+        <span class="paper-title">3D Gaussian Splatting</span> <span class="year-badge">2023</span>
+        <div class="paper-desc">用显式 3D 高斯椭球体表示场景，通过可微光栅化实现实时新视角合成。训练快、渲染可达 100+ FPS，在质量和效率上全面超越 NeRF，是目前 3DV 最主流的方向。</div>
+        <div class="paper-meta"><span class="tag arxiv">SIGGRAPH 2023</span><span class="tag learned">必读</span></div>
+        <div class="link-row" data-item="3dgs">
+          <a href="https://arxiv.org/abs/2308.04079" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="4dgs" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_4dgs"><label for="c_4dgs"></label></div>
+      <div class="item-content">
+        <span class="paper-title">4D Gaussian Splatting</span> <span class="year-badge">2024</span>
+        <div class="paper-desc">将 3DGS 扩展到时间维度，用 4D 高斯椭球体表示动态场景。每个高斯在时间上做线性变换或通过神经场控制运动，实现动态场景的实时渲染。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2024</span></div>
+        <div class="link-row" data-item="4dgs">
+          <a href="https://arxiv.org/abs/2310.10642" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="surfgs" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_surfgs"><label for="c_surfgs"></label></div>
+      <div class="item-content">
+        <span class="paper-title">SuGaR / Scaffold-GS</span> (2023-24)
+        <div class="paper-desc">SuGaR 从 3DGS 中提取表面网格，弥补显式点云缺少几何信息的缺陷。Scaffold-GS 引入锚点结构约束高斯分布，减少冗余并提升大场景渲染质量。</div>
+        <div class="paper-meta"><span class="tag arxiv">3DGS 改进</span></div>
+        <div class="link-row" data-item="surfgs">
+          <a href="https://arxiv.org/abs/2311.12721" target="_blank"><i class="fa-regular fa-file-lines"></i> SuGaR</a>
+          <a href="https://arxiv.org/abs/2312.00109" target="_blank"><i class="fa-regular fa-file-lines"></i> Scaffold-GS</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>前馈式 3D 重建</h3><span class="sub-count">6 篇 · 热点方向</span></div>
+
+    <div class="item" data-id="dust3r" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_dust3r"><label for="c_dust3r"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DUSt3R</span> <span class="year-badge">2024</span>
+        <div class="paper-desc">稠密无约束立体 3D 重建。用 Transformer 从任意两张未标定图像中回归密集点云和相机参数，无需 SfM。开创了端到端前馈重建范式，后续众多工作（MASt3R、MapAnything 等）均基于此框架扩展。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2024 Oral</span><span class="tag learned">奠基</span></div>
+        <div class="link-row" data-item="dust3r">
+          <a href="https://arxiv.org/abs/2312.14132" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="vggt" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_vggt"><label for="c_vggt"></label></div>
+      <div class="item-content">
+        <span class="paper-title">VGGT</span> <span class="year-badge">2025</span>
+        <div class="paper-desc">纯前馈 Transformer 从单张或少量图像中预测场景的深度、法向、点云等 3D 几何结构。无需多视角匹配和逐场景优化，推理速度快，可作为通用几何先验（AnySplat、MASt3R 等用它提供伪标签）。</div>
+        <div class="paper-meta"><span class="tag arxiv">ArXiv 2025</span><span class="tag learned">通用几何先验</span></div>
+        <div class="link-row" data-item="vggt">
+          <a href="https://arxiv.org/abs/2503.11651" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="anysplat" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_anysplat"><label for="c_anysplat"></label></div>
+      <div class="item-content">
+        <span class="paper-title">AnySplat</span> <span class="year-badge">2025</span>
+        <div class="paper-desc">面向无约束图像集合的通用前馈框架。单次前向传播同时预测 3D 高斯原语和相机内外参，支持从稀疏到稠密输入的无缝扩展。用 VGGT 提供伪几何先验训练，zero-shot 泛化强。</div>
+        <div class="paper-meta"><span class="tag arxiv">NeurIPS 2025</span></div>
+        <div class="link-row" data-item="anysplat">
+          <a href="https://arxiv.org/abs/2503.12668" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="tokengs" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_tokengs"><label for="c_tokengs"></label></div>
+      <div class="item-content">
+        <span class="paper-title">TokenGS</span> <span class="year-badge">2026</span>
+        <div class="paper-desc">用编码器-解码器架构 + 可学习高斯 token 替代逐像素回归。高斯数量不再受输入分辨率和视角数限制，直接回归 3D 坐标而非沿射线深度。支持动态场景分解和 test-time token 调优。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2026</span></div>
+        <div class="link-row" data-item="tokengs">
+          <a href="https://arxiv.org/abs/2504.06181" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="pf3plat" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_pf3plat"><label for="c_pf3plat"></label></div>
+      <div class="item-content">
+        <span class="paper-title">PF3plat</span> <span class="year-badge">2025</span>
+        <div class="paper-desc">无需相机位姿的前馈 3DGS。直接从无位姿图像序列增量式重建 3D 高斯原语，在单次前向传播中完成。解决前馈方法依赖已知位姿的痛点，适用于随意拍摄的真实场景。</div>
+        <div class="paper-meta"><span class="tag arxiv">ICML 2025</span></div>
+        <div class="link-row" data-item="pf3plat">
+          <a href="https://arxiv.org/abs/2505.14616" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="pi3" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_pi3"><label for="c_pi3"></label></div>
+      <div class="item-content">
+        <span class="paper-title">PI3</span> <span class="year-badge">2025</span>
+        <div class="paper-desc">Pose-Independent 3D reconstruction，无需先验相机位姿的前馈式 3D 重建方法。直接从无位姿图像集合中预测 3D 表示，进一步降低了前馈重建对 SfM 等预处理步骤的依赖。</div>
+        <div class="paper-meta"><span class="tag arxiv">ArXiv 2025</span><span class="tag learned">无位姿前馈</span></div>
+        <div class="link-row" data-item="pi3">
+          <a href="https://arxiv.org/abs/2507.13347" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="mapanything" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_mapanything"><label for="c_mapanything"></label></div>
+      <div class="item-content">
+        <span class="paper-title">MapAnything / AnchorSplat</span> (2025-26)
+        <div class="paper-desc">MapAnything 提出分解式多视图表示（局部深度图 + 光线置信度 + 全局尺度），统一不同输入设置。AnchorSplat 利用 MVS 几何先验构建锚点对齐的高斯表示，进一步提升了前馈重建的精度。</div>
+        <div class="paper-meta"><span class="tag arxiv">2025-26 前馈进展</span></div>
+        <div class="link-row" data-item="mapanything">
+          <a href="https://arxiv.org/abs/2503.16894" target="_blank"><i class="fa-regular fa-file-lines"></i> AnchorSplat</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>3D 深度学习基础</h3><span class="sub-count">拓展</span></div>
+
+    <div class="item" data-id="pointnet">
+      <div class="item-check"><input type="checkbox" id="c_pointnet"><label for="c_pointnet"></label></div>
+      <div class="item-content">
+        <span class="paper-title">PointNet / PointNet++</span> <span class="year-badge">2017</span>
+        <div class="paper-desc">直接用点云作为输入的深度网络。PointNet 用共享 MLP + 对称函数（max pooling）保证置换不变性。PointNet++ 引入层次化结构捕获局部邻域特征。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2017</span></div>
+        <div class="link-row" data-item="pointnet">
+          <a href="https://arxiv.org/abs/1612.00593" target="_blank"><i class="fa-regular fa-file-lines"></i> PointNet</a>
+          <a href="https://arxiv.org/abs/1706.02413" target="_blank"><i class="fa-regular fa-file-lines"></i> PointNet++</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="deepsdf">
+      <div class="item-check"><input type="checkbox" id="c_deepsdf"><label for="c_deepsdf"></label></div>
+      <div class="item-content">
+        <span class="paper-title">DeepSDF</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">用神经网络学习符号距离函数（SDF）的隐式表示。输入一个点坐标和 latent code 输出该点到物体表面的有符号距离，可以从部分观测重建完整形状。</div>
+        <div class="paper-meta"><span class="tag arxiv">CVPR 2019</span></div>
+        <div class="link-row" data-item="deepsdf">
+          <a href="https://arxiv.org/abs/1901.05103" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resource-box">
+      <h4>📖 推荐资源</h4>
+      <ul>
+        <li>3DGS 官方源码 → <a href="https://github.com/graphdeco-inria/gaussian-splatting" target="_blank">github.com/graphdeco-inria/gaussian-splatting</a></li>
+        <li>NeRF 官方源码 → <a href="https://github.com/bmild/nerf" target="_blank">github.com/bmild/nerf</a></li>
+        <li>Awesome NeRF → <a href="https://github.com/yenchenlin/awesome-NeRF" target="_blank">github.com/yenchenlin/awesome-NeRF</a></li>
+        <li>Awesome 3D Gaussian Splatting → <a href="https://github.com/MrNeRF/awesome-3D-gaussian-splatting" target="_blank">github.com/MrNeRF/awesome-3D-gaussian-splatting</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== S6 ===== -->
+<div class="section" id="sec-6">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>六、大语言模型</h2><span class="section-note"><i class="fa-regular fa-comment-dots" style="margin-right:3px;font-size:.7rem;"></i>GPT → InstructGPT → Llama</span><span class="section-progress" data-sk="sec6">0%</span></div>
+  <div class="section-body">
+
+    <div class="sub-section"><h3>语言模型演进</h3><span class="sub-count">6 篇</span></div>
+
+    <div class="item" data-id="bert" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_bert"><label for="c_bert"></label></div>
+      <div class="item-content">
+        <span class="paper-title">BERT</span> <span class="year-badge">2018</span>
+        <div class="paper-desc">双向编码器预训练。通过 Masked LM（随机 mask 词预测）和 Next Sentence Prediction 预训练 Transformer Encoder，在 11 个 NLP 任务上刷新 SOTA。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="bert">
+          <a href="https://arxiv.org/abs/1810.04805" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1PL411J7Hk" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐逐段精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="gpt" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_gpt"><label for="c_gpt"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GPT / GPT-2 / GPT-3</span>
+        <div class="paper-desc">GPT 系列三步曲。GPT：用 Transformer Decoder 做单向语言模型。GPT-2：扩大模型展示 zero-shot。GPT-3：scaling 到 175B 参数，few-shot 能力涌现。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="gpt">
+          <a href="https://www.bilibili.com/video/BV1AF411b7xQ" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读 (合集)</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="cot" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_cot"><label for="c_cot"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Chain of Thought</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">思维链推理。在 prompt 中加入中间推理步骤的例子，让 LLM 在回答问题前先产生推理过程，大幅提升复杂数学和逻辑推理任务的准确率。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="cot">
+          <a href="https://arxiv.org/abs/2201.11903" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1t8411e7Ug" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="instructgpt" data-imp="core">
+      <div class="item-check"><input type="checkbox" id="c_instructgpt"><label for="c_instructgpt"></label></div>
+      <div class="item-content">
+        <span class="paper-title">InstructGPT / RLHF</span> <span class="year-badge">2022</span>
+        <div class="paper-desc">用人类反馈强化学习对齐语言模型。收集人类偏好数据训练 reward model，再用 PPO 算法微调 GPT。让模型更符合人类指令意图，是 ChatGPT 的核心技术。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="instructgpt">
+          <a href="https://arxiv.org/abs/2203.02155" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1hd4y187CR" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="gpt4" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_gpt4"><label for="c_gpt4"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GPT-4</span> <span class="year-badge">2023</span>
+        <div class="paper-desc">多模态大语言模型里程碑。支持图像和文本输入，在多种专业考试（BAR、SAT 等）中达到人类水平。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="gpt4">
+          <a href="https://openai.com/research/gpt-4" target="_blank"><i class="fa-regular fa-file-lines"></i> OpenAI</a>
+          <a href="https://www.bilibili.com/video/BV1vM4y1U7b5" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="llama" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_llama"><label for="c_llama"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Llama 3.1</span> <span class="year-badge">2024</span>
+        <div class="paper-desc">Meta 最强开源大模型。405B 参数在 15T tokens 上预训练，展示了 scaling law、数据配比、训练 infra、post-training 等全流程经验。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="llama">
+          <a href="https://arxiv.org/abs/2407.21783" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1u142187S5" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-section"><h3>训练与推理系统</h3><span class="sub-count">4 篇</span></div>
+
+    <div class="item" data-id="ps">
+      <div class="item-check"><input type="checkbox" id="c_ps"><label for="c_ps"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Parameter Server</span> <span class="year-badge">2014</span>
+        <div class="paper-desc">李沐的分布式训练奠基之作。将参数存储和计算分离，通过异步通信支持千亿参数的传统机器学习模型训练。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="ps">
+          <a href="https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-li_mu.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> 论文</a>
+          <a href="https://www.bilibili.com/video/BV1MA4y1a7bL" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="gpipe">
+      <div class="item-check"><input type="checkbox" id="c_gpipe"><label for="c_gpipe"></label></div>
+      <div class="item-content">
+        <span class="paper-title">GPipe</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">流水线并行。将模型按层切分到不同设备上，通过 micro-batch 流水线调度使各设备同时工作，是分布式训练三大并行策略之一。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="gpipe">
+          <a href="https://arxiv.org/abs/1811.06965" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1v34y1E7zu" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="megatron" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_megatron"><label for="c_megatron"></label></div>
+      <div class="item-content">
+        <span class="paper-title">Megatron-LM</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">张量并行。将 Transformer 层内的矩阵运算（attention 的 QKV 投影、FFN 的线性层）切分到多个 GPU 上并行计算。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="megatron">
+          <a href="https://arxiv.org/abs/1909.08053" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1nB4y1R7Yz" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/348593638" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽专栏</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="zero" data-imp="high">
+      <div class="item-check"><input type="checkbox" id="c_zero"><label for="c_zero"></label></div>
+      <div class="item-content">
+        <span class="paper-title">ZeRO</span> <span class="year-badge">2019</span>
+        <div class="paper-desc">零冗余优化器。将优化器状态、梯度、参数分片到各个 GPU 上，消除分布式训练中的内存冗余。ZeRO-3 可以训练超出单卡显存数十倍的模型。</div>
+        <div class="paper-meta"><span class="tag bili"><i class="fa-brands fa-bilibili"></i> 李沐精读</span></div>
+        <div class="link-row" data-item="zero">
+          <a href="https://arxiv.org/abs/1910.02054" target="_blank"><i class="fa-regular fa-file-lines"></i> arXiv</a>
+          <a href="https://www.bilibili.com/video/BV1tY411g7ZT" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐精读</a>
+          <a href="https://zhuanlan.zhihu.com/p/348593638" target="_blank"><i class="fa-brands fa-zhihu"></i> 科技猛兽专栏</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== S7 ===== -->
+<div class="section" id="sec-7">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>七、科研方法论</h2><span class="section-note"><i class="fa-regular fa-flask" style="margin-right:3px;font-size:.7rem;"></i>李沐 · 研究的艺术</span><span class="section-progress" data-sk="sec7">0%</span></div>
+  <div class="section-body">
+
+    <div class="item" data-id="howtoread">
+      <div class="item-check"><input type="checkbox" id="c_howtoread"><label for="c_howtoread"></label></div>
+      <div class="item-content">
+        如何读论文
+        <div class="paper-desc">李沐的三遍阅读法：第一遍快速浏览掌握大意，第二遍逐段精读理解细节，第三遍深入思考可改进之处。适合作为整个路线图的起点。</div>
+        <div class="link-row" data-item="howtoread">
+          <a href="https://www.bilibili.com/video/BV1H44y1t7Wx" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 06:39</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="findidea">
+      <div class="item-check"><input type="checkbox" id="c_findidea"><label for="c_findidea"></label></div>
+      <div class="item-content">
+        如何找研究想法
+        <div class="paper-desc">从"想不出好 idea"到系统化生成研究思路的方法论，包括从看论文、复现实验、找未解决问题等渠道挖掘研究机会。</div>
+        <div class="link-row" data-item="findidea">
+          <a href="https://www.bilibili.com/video/BV1aq4y1j7jT" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 05:34</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="judgework">
+      <div class="item-check"><input type="checkbox" id="c_judgework"><label for="c_judgework"></label></div>
+      <div class="item-content">
+        如何判断研究工作的价值
+        <div class="paper-desc">评价研究的四个维度：问题重要性、解法新颖性、实验验证充分性、对 community 的启发。对判断论文质量和定位自己的工作很有帮助。</div>
+        <div class="link-row" data-item="judgework">
+          <a href="https://www.bilibili.com/video/BV1k34y1C7dW" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 09:59</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="novel">
+      <div class="item-check"><input type="checkbox" id="c_novel"><label for="c_novel"></label></div>
+      <div class="item-content">
+        论文不够 novel 怎么办
+        <div class="paper-desc">针对被审稿人批评"novelty 不够"的常见困境，分析审稿人如何判断 novelty，以及如何提升。</div>
+        <div class="link-row" data-item="novel">
+          <a href="https://www.bilibili.com/video/BV1Fr4y1x7tC" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 14:11</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="llmresearch">
+      <div class="item-check"><input type="checkbox" id="c_llmresearch"><label for="c_llmresearch"></label></div>
+      <div class="item-content">
+        大模型时代下做科研的四个思路
+        <div class="paper-desc">大模型时代的研究范式转变：从刷榜到发现问题、从单打独斗到系统化工程、从改进模型到探索新能力。</div>
+        <div class="link-row" data-item="llmresearch">
+          <a href="https://www.bilibili.com/video/BV1oX4y1d7X6" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 1:06:29</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="artofresearch">
+      <div class="item-check"><input type="checkbox" id="c_artofresearch"><label for="c_artofresearch"></label></div>
+      <div class="item-content">
+        《研究的艺术》四讲
+        <div class="paper-desc">基于 Booth 的经典著作，李沐的系统讲解：与读者建立联系、明白问题的重要性、如何讲好故事、理由论据和担保。</div>
+        <div class="link-row" data-item="artofresearch">
+          <a href="https://www.bilibili.com/video/BV1hY411T7vy" target="_blank"><i class="fa-brands fa-bilibili"></i> 一</a>
+          <a href="https://www.bilibili.com/video/BV11S4y1v7S2" target="_blank"><i class="fa-brands fa-bilibili"></i> 二</a>
+          <a href="https://www.bilibili.com/video/BV1WB4y1v7ST" target="_blank"><i class="fa-brands fa-bilibili"></i> 三</a>
+          <a href="https://www.bilibili.com/video/BV1SB4y1a75c" target="_blank"><i class="fa-brands fa-bilibili"></i> 四</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-id="aireport">
+      <div class="item-check"><input type="checkbox" id="c_aireport"><label for="c_aireport"></label></div>
+      <div class="item-content">
+        斯坦福 AI 指数报告
+        <div class="paper-desc">斯坦福 HAI 的年度 AI 全景报告，覆盖 R&D 投入、论文发表、开源趋势、AI 伦理等。适合了解 AI 领域的宏观图景。</div>
+        <div class="link-row" data-item="aireport">
+          <a href="https://www.bilibili.com/video/BV1YY411p7QS" target="_blank"><i class="fa-brands fa-bilibili"></i> 李沐 1:19:56</a>
+          <button class="add-link-btn" onclick="openForm(this)"><i class="fa-regular fa-plus"></i></button>
+          <div class="add-link-form"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ORDER -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>学习顺序建议</h2><span class="section-progress">—</span></div>
+  <div class="section-body">
+    <div class="note-box"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#8BBB8F;margin-right:6px;"></span><strong>第一阶段 · 已掌握</strong><br>ResNet → Transformer → ViT → Swin Transformer</div>
+    <div class="note-box"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#D49A7A;margin-right:6px;"></span><strong>第二阶段 · 自监督主线</strong><br>对比学习综述 → MAE → BEiT → SimMIM → DINO → iBOT → DINOv2</div>
+    <div class="note-box"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#C8A050;margin-right:6px;"></span><strong>第三阶段 · 扩散模型主线</strong><br>GAN → DDPM → DDIM → LDM → CFG → DALL·E 2 → DiT → Sora</div>
+    <div class="note-box"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#7BA4BE;margin-right:6px;"></span><strong>第四阶段 · 大模型</strong><br>GPT 系列 → BERT → InstructGPT → CoT → GPT-4 → Llama 3.1 + 分布式训练</div>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div class="section">
+  <div class="section-header" onclick="toggleSection(this)"><span class="toggle-icon">▼</span><h2>三大资源总览</h2><span class="section-progress">—</span></div>
+  <div class="section-body">
+    <table class="appendix-table">
+      <tr><th>资源</th><th>定位</th><th>适合场景</th></tr>
+      <tr><td>科技猛兽 (知乎)</td><td>代码级解读 + 超详细原理</td><td>配合李沐精读后加深理解</td></tr>
+      <tr><td>Dezeming (知乎)</td><td>通俗易懂，从数学底层出发</td><td>新概念入门 / 查漏补缺</td></tr>
+      <tr><td>李沐 (B站)</td><td>逐段精读 + 写作技巧</td><td>主餐，按录制时间从早到晚</td></tr>
+    </table>
+    <div class="note-box" style="margin-top:.7rem;">💡 <strong>阅读策略：</strong>难的概念先看 Dezeming 建立直觉 → 李沐精读吃透细节 → 科技猛兽博客补充代码实现</div>
+    <div class="summary-grid">
+      <div class="summary-card"><div class="num" id="summaryDone">0</div><div class="lbl">已学</div></div>
+      <div class="summary-card"><div class="num" id="summaryLearning">0</div><div class="lbl">学习中</div></div>
+      <div class="summary-card"><div class="num" id="summaryTotal">0</div><div class="lbl">总计</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer"><i class="fa-regular fa-floppy-disk"></i> 进度与自定义链接自动保存在浏览器本地</div>
+
+</div>
+
+<script>
+(function(){const CK='dl_checks_v3',LK='dl_custom_links';
+function lc(){try{return JSON.parse(localStorage.getItem(CK))||{}}catch(e){return{}}}
+function sc(s){localStorage.setItem(CK,JSON.stringify(s))}
+function ll(){try{return JSON.parse(localStorage.getItem(LK))||{}}catch(e){return{}}}
+function sl(s){localStorage.setItem(LK,JSON.stringify(s))}
+function rcl(i){const l=ll(),r=document.querySelector(`.link-row[data-item="${i}"]`);if(!r)return;const il=l[i]||[];
+r.querySelectorAll('.custom-link-item').forEach(e=>e.remove());
+il.forEach((k,idx)=>{const a=document.createElement('a');a.href=k.url;a.target='_blank';a.className='custom-link-item';
+a.innerHTML=`<i class="${k.icon}"></i> ${k.title}`;const rm=document.createElement('span');
+rm.className='remove-link';rm.innerHTML='<i class="fa-regular fa-xmark"></i>';
+rm.onclick=function(e){e.preventDefault();e.stopPropagation();window.removeCustomLink(i,idx)};
+a.appendChild(rm);const ab=r.querySelector('.add-link-btn');if(ab)r.insertBefore(a,ab);else r.appendChild(a)})}
+window.removeCustomLink=function(i,idx){const l=ll();if(l[i]){l[i].splice(idx,1);if(l[i].length===0)delete l[i];sl(l)}rcl(i)};
+function rac(){document.querySelectorAll('.link-row[data-item]').forEach(r=>rcl(r.dataset.item))}
+window.openForm=function(b){const r=b.closest('.link-row');if(!r)return;const f=r.querySelector('.add-link-form');if(!f)return;
+if(f.classList.contains('open')){f.classList.remove('open');f.innerHTML='';return}
+document.querySelectorAll('.add-link-form.open').forEach(x=>{x.classList.remove('open');x.innerHTML=''});
+const i=r.dataset.item;f.innerHTML=`<input type="text" class="fl-title" placeholder="链接标题"><input type="url" class="fl-url" placeholder="https://..."><select class="fl-icon">${[
+{l:'链接',i:'fa-regular fa-link'},{l:'网页',i:'fa-regular fa-globe'},{l:'PDF',i:'fa-regular fa-file-lines'},{l:'GitHub',i:'fa-brands fa-github'},
+{l:'B站',i:'fa-brands fa-bilibili'},{l:'知乎',i:'fa-brands fa-zhihu'},{l:'视频',i:'fa-regular fa-circle-play'},{l:'博客',i:'fa-regular fa-pen-to-square'},
+{l:'论文',i:'fa-regular fa-scroll'},{l:'代码',i:'fa-regular fa-code'},{l:'笔记',i:'fa-regular fa-note-sticky'},{l:'书签',i:'fa-regular fa-bookmark'}
+].map(o=>`<option value="${o.i}">${o.l}</option>`).join('')}</select><button class="form-btn save" onclick="window.saveCustomLink(this)">保存</button><button class="form-btn cancel" onclick="window.closeForm(this)">取消</button>`;f.classList.add('open')};
+window.saveCustomLink=function(b){const f=b.closest('.add-link-form');const r=f.closest('.link-row');const i=r.dataset.item;
+const t=f.querySelector('.fl-title').value.trim();const u=f.querySelector('.fl-url').value.trim();const n=f.querySelector('.fl-icon').value;
+if(!t||!u)return;const l=ll();if(!l[i])l[i]=[];l[i].push({title:t,url:u,icon:n});sl(l);
+f.classList.remove('open');f.innerHTML='';rcl(i)};
+window.closeForm=function(b){const f=b.closest('.add-link-form');f.classList.remove('open');f.innerHTML=''};
+window.toggleEditMode=function(){const b=document.body,bt=document.getElementById('editToggleBtn');
+b.classList.toggle('edit-mode');bt.classList.toggle('active');
+bt.innerHTML=bt.classList.contains('active')?'<i class="fa-regular fa-pen-to-square"></i> 编辑中':'<i class="fa-regular fa-pen-to-square"></i> 编辑链接'};
+function ac(){const s=lc();document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(s[c.id]===true)c.checked=true;c.addEventListener('change',oc)})}
+function oc(){const s={};document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(c.checked)s[c.id]=true});sc(s);up()}
+window.toggleSection=function(h){h.classList.toggle('collapsed')}
+function csp(s){const c=s.querySelectorAll('.item-check input[type="checkbox"]');const t=c.length;if(t===0)return 0;let d=0;c.forEach(x=>{if(x.checked)d++});return Math.round(d/t*100)}
+function up(){let td=0,ti=0;document.querySelectorAll('.section').forEach(s=>{const p=s.querySelector('.section-progress');if(!p||p.textContent==='—')return;
+const v=csp(s);p.textContent=v+'%';s.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{ti++;if(c.checked)td++})});
+const b=document.getElementById('totalBar'),st=document.getElementById('totalStat');
+if(ti>0){const p=Math.round(td/ti*100);b.style.width=p+'%';st.innerHTML='<strong>'+td+'</strong> / <strong>'+ti+'</strong>'}
+else{b.style.width='0%';st.innerHTML='<strong>0</strong> / <strong>0</strong>'}
+let lc=0;document.querySelectorAll('.paper-title.learning').forEach(el=>{const it=el.closest('.item');if(it){const cb=it.querySelector('input[type="checkbox"]');if(cb&&!cb.checked)lc++}});
+let dc=0;document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{if(c.checked)dc++});
+document.getElementById('summaryDone').textContent=dc;document.getElementById('summaryLearning').textContent=lc;document.getElementById('summaryTotal').textContent=ti}
+window.resetAll=function(){if(!confirm('确定重置全部进度？'))return;localStorage.removeItem(CK);document.querySelectorAll('.item-check input[type="checkbox"]').forEach(c=>{c.checked=false});up()};
+ac();rac();up();
+document.addEventListener('click',function(e){if(!e.target.closest('.add-link-form')&&!e.target.closest('.add-link-btn'))document.querySelectorAll('.add-link-form.open').forEach(f=>{f.classList.remove('open');f.innerHTML=''})})})();
+</script>
+</body>
+</html>
